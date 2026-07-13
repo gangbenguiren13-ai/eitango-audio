@@ -28,11 +28,12 @@ header p { font-size:.75rem; opacity:.85; margin-top:2px; }
 .row .txt small { display:block; font-style:normal; color:#888; font-size:.75rem; }
 button.play { flex-shrink:0; background:var(--teal); color:#fff; border:none;
         border-radius:18px; padding:7px 12px; font-size:.85rem; font-weight:700;
-        display:flex; align-items:center; gap:4px; cursor:pointer; min-width:86px;
+        display:flex; align-items:center; gap:4px; cursor:pointer; min-width:92px;
         justify-content:center; }
 button.play:active { background:var(--amber); }
 button.play.word-btn { background:var(--amber); }
 button.play.loading { opacity:.6; }
+button.play.playing { outline:3px solid var(--amber); }
 footer { text-align:center; font-size:.7rem; color:#888; padding:20px; }
 </style>
 </head>
@@ -322,54 +323,87 @@ footer { text-align:center; font-size:.7rem; color:#888; padding:20px; }
 </div>
 <footer>Fuki Elementary and Middle School</footer>
 <script>
-const CLIPS = {"u5_001_w.mp3": ["u5_s1.mp3", 0.0, 1.56], "u5_001_e1.mp3": ["u5_s1.mp3", 1.96, 8.85], "u5_001_e2.mp3": ["u5_s1.mp3", 9.25, 15.87], "u5_002_w.mp3": ["u5_s1.mp3", 16.27, 17.9], "u5_002_e1.mp3": ["u5_s1.mp3", 18.3, 25.19], "u5_002_e2.mp3": ["u5_s1.mp3", 25.59, 32.24], "u5_003_w.mp3": ["u5_s1.mp3", 32.64, 34.27], "u5_003_e1.mp3": ["u5_s1.mp3", 34.67, 41.56], "u5_003_e2.mp3": ["u5_s1.mp3", 41.96, 47.5], "u5_004_w.mp3": ["u5_s1.mp3", 47.9, 50.26], "u5_004_e1.mp3": ["u5_s1.mp3", 50.66, 62.7], "u5_004_e2.mp3": ["u5_s1.mp3", 63.1, 69.46], "u5_005_w.mp3": ["u5_s1.mp3", 69.86, 71.64], "u5_005_e1.mp3": ["u5_s1.mp3", 72.04, 84.09], "u5_005_e2.mp3": ["u5_s1.mp3", 84.49, 91.59], "u5_006_w.mp3": ["u5_s1.mp3", 91.99, 93.74], "u5_006_e1.mp3": ["u5_s1.mp3", 94.14, 106.19], "u5_006_e2.mp3": ["u5_s1.mp3", 106.59, 113.07], "u5_007_w.mp3": ["u5_s1.mp3", 113.47, 115.3], "u5_007_e1.mp3": ["u5_s1.mp3", 115.7, 127.74], "u5_007_e2.mp3": ["u5_s1.mp3", 128.14, 134.1], "u5_008_w.mp3": ["u5_s1.mp3", 134.5, 136.99], "u5_008_e1.mp3": ["u5_s1.mp3", 137.39, 149.44], "u5_008_e2.mp3": ["u5_s1.mp3", 149.84, 156.66], "u5_009_w.mp3": ["u5_s1.mp3", 157.06, 158.69], "u5_009_e1.mp3": ["u5_s1.mp3", 159.09, 167.73], "u5_009_e2.mp3": ["u5_s1.mp3", 168.13, 174.51], "u5_010_w.mp3": ["u5_s1.mp3", 174.91, 176.88], "u5_010_e1.mp3": ["u5_s1.mp3", 177.28, 184.36], "u5_010_e2.mp3": ["u5_s1.mp3", 184.76, 191.86], "u5_011_w.mp3": ["u5_s1.mp3", 192.26, 194.11], "u5_011_e1.mp3": ["u5_s1.mp3", 194.51, 201.59], "u5_011_e2.mp3": ["u5_s1.mp3", 201.99, 208.18], "u5_012_w.mp3": ["u5_s1.mp3", 208.58, 210.36], "u5_012_e1.mp3": ["u5_s1.mp3", 210.76, 217.77], "u5_012_e2.mp3": ["u5_s1.mp3", 218.17, 224.46], "u5_013_w.mp3": ["u5_s1.mp3", 224.86, 227.23], "u5_013_e1.mp3": ["u5_s1.mp3", 227.63, 233.68], "u5_013_e2.mp3": ["u5_s1.mp3", 234.08, 240.25], "u5_014_w.mp3": ["u5_s1.mp3", 240.65, 242.21], "u5_014_e1.mp3": ["u5_s1.mp3", 242.61, 248.66], "u5_014_e2.mp3": ["u5_s1.mp3", 249.06, 255.37], "u5_015_w.mp3": ["u5_s1.mp3", 255.77, 258.14], "u5_015_e1.mp3": ["u5_s1.mp3", 258.54, 265.43], "u5_015_e2.mp3": ["u5_s1.mp3", 265.83, 272.29], "u5_016_w.mp3": ["u5_s1.mp3", 272.69, 274.46], "u5_016_e1.mp3": ["u5_s1.mp3", 274.86, 286.91], "u5_016_e2.mp3": ["u5_s1.mp3", 287.31, 293.1], "u5_017_w.mp3": ["u5_s1.mp3", 293.5, 295.42], "u5_017_e1.mp3": ["u5_s1.mp3", 295.82, 301.86], "u5_017_e2.mp3": ["u5_s1.mp3", 302.26, 308.24], "u5_018_w.mp3": ["u5_s1.mp3", 308.64, 310.44], "u5_018_e1.mp3": ["u5_s1.mp3", 310.84, 319.48], "u5_018_e2.mp3": ["u5_s1.mp3", 319.88, 326.53], "u5_019_w.mp3": ["u5_s2.mp3", 0.0, 1.58], "u5_019_e1.mp3": ["u5_s2.mp3", 1.98, 8.01], "u5_019_e2.mp3": ["u5_s2.mp3", 8.41, 15.01], "u5_020_w.mp3": ["u5_s2.mp3", 15.41, 17.09], "u5_020_e1.mp3": ["u5_s2.mp3", 17.49, 24.59], "u5_020_e2.mp3": ["u5_s2.mp3", 24.99, 31.06], "u5_021_w.mp3": ["u5_s2.mp3", 31.46, 33.14], "u5_021_e1.mp3": ["u5_s2.mp3", 33.54, 41.49], "u5_021_e2.mp3": ["u5_s2.mp3", 41.89, 48.27], "u5_022_w.mp3": ["u5_s2.mp3", 48.67, 50.28], "u5_022_e1.mp3": ["u5_s2.mp3", 50.68, 56.49], "u5_022_e2.mp3": ["u5_s2.mp3", 56.89, 62.6], "u5_023_w.mp3": ["u5_s2.mp3", 63.0, 65.38], "u5_023_e1.mp3": ["u5_s2.mp3", 65.78, 73.91], "u5_023_e2.mp3": ["u5_s2.mp3", 74.31, 81.99], "u5_024_w.mp3": ["u5_s2.mp3", 82.39, 84.14], "u5_024_e1.mp3": ["u5_s2.mp3", 84.54, 92.82], "u5_024_e2.mp3": ["u5_s2.mp3", 93.22, 100.42], "u5_025_w.mp3": ["u5_s2.mp3", 100.82, 103.63], "u5_025_e1.mp3": ["u5_s2.mp3", 104.03, 110.06], "u5_025_e2.mp3": ["u5_s2.mp3", 110.46, 115.57], "u5_026_w.mp3": ["u5_s2.mp3", 115.97, 118.61], "u5_026_e1.mp3": ["u5_s2.mp3", 119.01, 126.81], "u5_026_e2.mp3": ["u5_s2.mp3", 127.21, 133.76], "u5_027_w.mp3": ["u5_s2.mp3", 134.16, 136.61], "u5_027_e1.mp3": ["u5_s2.mp3", 137.01, 145.14], "u5_027_e2.mp3": ["u5_s2.mp3", 145.54, 152.1], "u5_028_w.mp3": ["u5_s2.mp3", 152.5, 154.51], "u5_028_e1.mp3": ["u5_s2.mp3", 154.91, 161.94], "u5_028_e2.mp3": ["u5_s2.mp3", 162.34, 169.81], "u5_029_w.mp3": ["u5_s2.mp3", 170.21, 172.9], "u5_029_e1.mp3": ["u5_s2.mp3", 173.3, 180.33], "u5_029_e2.mp3": ["u5_s2.mp3", 180.73, 187.54], "u5_030_w.mp3": ["u5_s2.mp3", 187.94, 189.72], "u5_030_e1.mp3": ["u5_s2.mp3", 190.12, 196.0], "u5_030_e2.mp3": ["u5_s2.mp3", 196.4, 202.23], "u5_031_w.mp3": ["u5_s3.mp3", 0.0, 1.68], "u5_031_e1.mp3": ["u5_s3.mp3", 2.08, 12.14], "u5_031_e2.mp3": ["u5_s3.mp3", 12.54, 19.62], "u5_032_w.mp3": ["u5_s3.mp3", 20.02, 21.91], "u5_032_e1.mp3": ["u5_s3.mp3", 22.31, 30.11], "u5_032_e2.mp3": ["u5_s3.mp3", 30.51, 37.86], "u5_033_w.mp3": ["u5_s3.mp3", 38.26, 40.08], "u5_033_e1.mp3": ["u5_s3.mp3", 40.48, 51.78], "u5_033_e2.mp3": ["u5_s3.mp3", 52.18, 59.1], "u5_034_w.mp3": ["u5_s3.mp3", 59.5, 61.1], "u5_034_e1.mp3": ["u5_s3.mp3", 61.5, 68.94], "u5_034_e2.mp3": ["u5_s3.mp3", 69.34, 75.87], "u5_035_w.mp3": ["u5_s3.mp3", 76.27, 78.55], "u5_035_e1.mp3": ["u5_s3.mp3", 78.95, 86.34], "u5_035_e2.mp3": ["u5_s3.mp3", 86.74, 93.1], "u5_036_w.mp3": ["u5_s3.mp3", 93.5, 95.18], "u5_036_e1.mp3": ["u5_s3.mp3", 95.58, 105.57], "u5_036_e2.mp3": ["u5_s3.mp3", 105.97, 112.3], "u5_037_w.mp3": ["u5_s3.mp3", 112.7, 114.46], "u5_037_e1.mp3": ["u5_s3.mp3", 114.86, 124.84], "u5_037_e2.mp3": ["u5_s3.mp3", 125.24, 131.26], "u5_038_w.mp3": ["u5_s3.mp3", 131.66, 133.2], "u5_038_e1.mp3": ["u5_s3.mp3", 133.6, 143.58], "u5_038_e2.mp3": ["u5_s3.mp3", 143.98, 150.87], "u5_039_w.mp3": ["u5_s3.mp3", 151.27, 153.19], "u5_039_e1.mp3": ["u5_s3.mp3", 153.59, 158.94], "u5_039_e2.mp3": ["u5_s3.mp3", 159.34, 165.27], "u5_040_w.mp3": ["u5_s3.mp3", 165.67, 167.42], "u5_040_e1.mp3": ["u5_s3.mp3", 167.82, 175.26], "u5_040_e2.mp3": ["u5_s3.mp3", 175.66, 181.88], "u5_041_w.mp3": ["u5_s3.mp3", 182.28, 184.37], "u5_041_e1.mp3": ["u5_s3.mp3", 184.77, 193.05], "u5_041_e2.mp3": ["u5_s3.mp3", 193.45, 201.44], "u5_042_w.mp3": ["u5_s3.mp3", 201.84, 203.71], "u5_042_e1.mp3": ["u5_s3.mp3", 204.11, 214.17], "u5_042_e2.mp3": ["u5_s3.mp3", 214.57, 222.1], "u5_043_w.mp3": ["u5_s3.mp3", 222.5, 224.35], "u5_043_e1.mp3": ["u5_s3.mp3", 224.75, 231.18], "u5_043_e2.mp3": ["u5_s3.mp3", 231.58, 239.7], "u5_044_w.mp3": ["u5_s3.mp3", 240.1, 241.87], "u5_044_e1.mp3": ["u5_s3.mp3", 242.27, 250.55], "u5_044_e2.mp3": ["u5_s3.mp3", 250.95, 257.67], "u5_045_w.mp3": ["u5_s3.mp3", 258.07, 259.97], "u5_045_e1.mp3": ["u5_s3.mp3", 260.37, 270.35], "u5_045_e2.mp3": ["u5_s3.mp3", 270.75, 278.34], "u5_046_w.mp3": ["u5_s3.mp3", 278.74, 280.7], "u5_046_e1.mp3": ["u5_s3.mp3", 281.1, 291.09], "u5_046_e2.mp3": ["u5_s3.mp3", 291.49, 298.3]};
-const players = {};
-let current = null, stopAt = 0, activeBtn = null;
+const CLIPS = {"u5_001_w.mp3": ["u5_s1.m4a", 0.0, 1.68], "u5_001_e1.mp3": ["u5_s1.m4a", 1.9, 8.92], "u5_001_e2.mp3": ["u5_s1.m4a", 9.14, 15.896], "u5_002_w.mp3": ["u5_s1.m4a", 16.116, 17.928], "u5_002_e1.mp3": ["u5_s1.m4a", 18.148, 25.168], "u5_002_e2.mp3": ["u5_s1.m4a", 25.388, 32.168], "u5_003_w.mp3": ["u5_s1.m4a", 32.388, 34.2], "u5_003_e1.mp3": ["u5_s1.m4a", 34.42, 41.44], "u5_003_e2.mp3": ["u5_s1.m4a", 41.66, 47.336], "u5_004_w.mp3": ["u5_s1.m4a", 47.556, 50.088], "u5_004_e1.mp3": ["u5_s1.m4a", 50.308, 62.488], "u5_004_e2.mp3": ["u5_s1.m4a", 62.708, 69.2], "u5_005_w.mp3": ["u5_s1.m4a", 69.42, 71.376], "u5_005_e1.mp3": ["u5_s1.m4a", 71.596, 83.776], "u5_005_e2.mp3": ["u5_s1.m4a", 83.996, 91.232], "u5_006_w.mp3": ["u5_s1.m4a", 91.452, 93.384], "u5_006_e1.mp3": ["u5_s1.m4a", 93.604, 105.784], "u5_006_e2.mp3": ["u5_s1.m4a", 106.004, 112.616], "u5_007_w.mp3": ["u5_s1.m4a", 112.836, 114.84], "u5_007_e1.mp3": ["u5_s1.m4a", 115.06, 127.24], "u5_007_e2.mp3": ["u5_s1.m4a", 127.46, 133.544], "u5_008_w.mp3": ["u5_s1.m4a", 133.764, 136.44], "u5_008_e1.mp3": ["u5_s1.m4a", 136.66, 148.84], "u5_008_e2.mp3": ["u5_s1.m4a", 149.06, 156.008], "u5_009_w.mp3": ["u5_s1.m4a", 156.228, 158.04], "u5_009_e1.mp3": ["u5_s1.m4a", 158.26, 167.032], "u5_009_e2.mp3": ["u5_s1.m4a", 167.252, 173.768], "u5_010_w.mp3": ["u5_s1.m4a", 173.988, 176.136], "u5_010_e1.mp3": ["u5_s1.m4a", 176.356, 183.568], "u5_010_e2.mp3": ["u5_s1.m4a", 183.788, 191.024], "u5_011_w.mp3": ["u5_s1.m4a", 191.244, 193.272], "u5_011_e1.mp3": ["u5_s1.m4a", 193.492, 200.704], "u5_011_e2.mp3": ["u5_s1.m4a", 200.924, 207.248], "u5_012_w.mp3": ["u5_s1.m4a", 207.468, 209.424], "u5_012_e1.mp3": ["u5_s1.m4a", 209.644, 216.784], "u5_012_e2.mp3": ["u5_s1.m4a", 217.004, 223.424], "u5_013_w.mp3": ["u5_s1.m4a", 223.644, 226.2], "u5_013_e1.mp3": ["u5_s1.m4a", 226.42, 232.6], "u5_013_e2.mp3": ["u5_s1.m4a", 232.82, 239.12], "u5_014_w.mp3": ["u5_s1.m4a", 239.34, 241.08], "u5_014_e1.mp3": ["u5_s1.m4a", 241.3, 247.48], "u5_014_e2.mp3": ["u5_s1.m4a", 247.7, 254.144], "u5_015_w.mp3": ["u5_s1.m4a", 254.364, 256.92], "u5_015_e1.mp3": ["u5_s1.m4a", 257.14, 264.16], "u5_015_e2.mp3": ["u5_s1.m4a", 264.38, 270.968], "u5_016_w.mp3": ["u5_s1.m4a", 271.188, 273.144], "u5_016_e1.mp3": ["u5_s1.m4a", 273.364, 285.544], "u5_016_e2.mp3": ["u5_s1.m4a", 285.764, 291.68], "u5_017_w.mp3": ["u5_s1.m4a", 291.9, 294.0], "u5_017_e1.mp3": ["u5_s1.m4a", 294.22, 300.4], "u5_017_e2.mp3": ["u5_s1.m4a", 300.62, 306.728], "u5_018_w.mp3": ["u5_s1.m4a", 306.948, 308.928], "u5_018_e1.mp3": ["u5_s1.m4a", 309.148, 317.92], "u5_018_e2.mp3": ["u5_s1.m4a", 318.14, 324.92], "u5_019_w.mp3": ["u5_s2.m4a", 0.0, 1.704], "u5_019_e1.mp3": ["u5_s2.m4a", 1.924, 8.08], "u5_019_e2.mp3": ["u5_s2.m4a", 8.3, 15.032], "u5_020_w.mp3": ["u5_s2.m4a", 15.252, 17.112], "u5_020_e1.mp3": ["u5_s2.m4a", 17.332, 24.568], "u5_020_e2.mp3": ["u5_s2.m4a", 24.788, 30.992], "u5_021_w.mp3": ["u5_s2.m4a", 31.212, 33.072], "u5_021_e1.mp3": ["u5_s2.m4a", 33.292, 41.368], "u5_021_e2.mp3": ["u5_s2.m4a", 41.588, 48.104], "u5_022_w.mp3": ["u5_s2.m4a", 48.324, 50.112], "u5_022_e1.mp3": ["u5_s2.m4a", 50.332, 56.272], "u5_022_e2.mp3": ["u5_s2.m4a", 56.492, 62.336], "u5_023_w.mp3": ["u5_s2.m4a", 62.556, 65.112], "u5_023_e1.mp3": ["u5_s2.m4a", 65.332, 73.6], "u5_023_e2.mp3": ["u5_s2.m4a", 73.82, 81.632], "u5_024_w.mp3": ["u5_s2.m4a", 81.852, 83.784], "u5_024_e1.mp3": ["u5_s2.m4a", 84.004, 92.416], "u5_024_e2.mp3": ["u5_s2.m4a", 92.636, 99.968], "u5_025_w.mp3": ["u5_s2.m4a", 100.188, 103.176], "u5_025_e1.mp3": ["u5_s2.m4a", 103.396, 109.552], "u5_025_e2.mp3": ["u5_s2.m4a", 109.772, 115.016], "u5_026_w.mp3": ["u5_s2.m4a", 115.236, 118.056], "u5_026_e1.mp3": ["u5_s2.m4a", 118.276, 126.208], "u5_026_e2.mp3": ["u5_s2.m4a", 126.428, 133.112], "u5_027_w.mp3": ["u5_s2.m4a", 133.332, 135.96], "u5_027_e1.mp3": ["u5_s2.m4a", 136.18, 144.448], "u5_027_e2.mp3": ["u5_s2.m4a", 144.668, 151.352], "u5_028_w.mp3": ["u5_s2.m4a", 151.572, 153.768], "u5_028_e1.mp3": ["u5_s2.m4a", 153.988, 161.152], "u5_028_e2.mp3": ["u5_s2.m4a", 161.372, 168.968], "u5_029_w.mp3": ["u5_s2.m4a", 169.188, 172.056], "u5_029_e1.mp3": ["u5_s2.m4a", 172.276, 179.44], "u5_029_e2.mp3": ["u5_s2.m4a", 179.66, 186.608], "u5_030_w.mp3": ["u5_s2.m4a", 186.828, 188.784], "u5_030_e1.mp3": ["u5_s2.m4a", 189.004, 195.016], "u5_030_e2.mp3": ["u5_s2.m4a", 195.236, 201.2], "u5_031_w.mp3": ["u5_s3.m4a", 0.0, 1.8], "u5_031_e1.mp3": ["u5_s3.m4a", 2.02, 12.208], "u5_031_e2.mp3": ["u5_s3.m4a", 12.428, 19.64], "u5_032_w.mp3": ["u5_s3.m4a", 19.86, 21.936], "u5_032_e1.mp3": ["u5_s3.m4a", 22.156, 30.088], "u5_032_e2.mp3": ["u5_s3.m4a", 30.308, 37.784], "u5_033_w.mp3": ["u5_s3.m4a", 38.004, 40.008], "u5_033_e1.mp3": ["u5_s3.m4a", 40.228, 51.664], "u5_033_e2.mp3": ["u5_s3.m4a", 51.884, 58.928], "u5_034_w.mp3": ["u5_s3.m4a", 59.148, 60.936], "u5_034_e1.mp3": ["u5_s3.m4a", 61.156, 68.728], "u5_034_e2.mp3": ["u5_s3.m4a", 68.948, 75.608], "u5_035_w.mp3": ["u5_s3.m4a", 75.828, 78.288], "u5_035_e1.mp3": ["u5_s3.m4a", 78.508, 86.032], "u5_035_e2.mp3": ["u5_s3.m4a", 86.252, 92.744], "u5_036_w.mp3": ["u5_s3.m4a", 92.964, 94.824], "u5_036_e1.mp3": ["u5_s3.m4a", 95.044, 105.16], "u5_036_e2.mp3": ["u5_s3.m4a", 105.38, 111.848], "u5_037_w.mp3": ["u5_s3.m4a", 112.068, 114.0], "u5_037_e1.mp3": ["u5_s3.m4a", 114.22, 124.336], "u5_037_e2.mp3": ["u5_s3.m4a", 124.556, 130.712], "u5_038_w.mp3": ["u5_s3.m4a", 130.932, 132.648], "u5_038_e1.mp3": ["u5_s3.m4a", 132.868, 142.984], "u5_038_e2.mp3": ["u5_s3.m4a", 143.204, 150.224], "u5_039_w.mp3": ["u5_s3.m4a", 150.444, 152.544], "u5_039_e1.mp3": ["u5_s3.m4a", 152.764, 158.248], "u5_039_e2.mp3": ["u5_s3.m4a", 158.468, 164.528], "u5_040_w.mp3": ["u5_s3.m4a", 164.748, 166.68], "u5_040_e1.mp3": ["u5_s3.m4a", 166.9, 174.472], "u5_040_e2.mp3": ["u5_s3.m4a", 174.692, 181.04], "u5_041_w.mp3": ["u5_s3.m4a", 181.26, 183.528], "u5_041_e1.mp3": ["u5_s3.m4a", 183.748, 192.16], "u5_041_e2.mp3": ["u5_s3.m4a", 192.38, 200.504], "u5_042_w.mp3": ["u5_s3.m4a", 200.724, 202.776], "u5_042_e1.mp3": ["u5_s3.m4a", 202.996, 213.184], "u5_042_e2.mp3": ["u5_s3.m4a", 213.404, 221.072], "u5_043_w.mp3": ["u5_s3.m4a", 221.292, 223.32], "u5_043_e1.mp3": ["u5_s3.m4a", 223.54, 230.104], "u5_043_e2.mp3": ["u5_s3.m4a", 230.324, 238.568], "u5_044_w.mp3": ["u5_s3.m4a", 238.788, 240.744], "u5_044_e1.mp3": ["u5_s3.m4a", 240.964, 249.376], "u5_044_e2.mp3": ["u5_s3.m4a", 249.596, 256.448], "u5_045_w.mp3": ["u5_s3.m4a", 256.668, 258.744], "u5_045_e1.mp3": ["u5_s3.m4a", 258.964, 269.08], "u5_045_e2.mp3": ["u5_s3.m4a", 269.3, 277.016], "u5_046_w.mp3": ["u5_s3.m4a", 277.236, 279.384], "u5_046_e1.mp3": ["u5_s3.m4a", 279.604, 289.72], "u5_046_e2.mp3": ["u5_s3.m4a", 289.94, 296.888]};  // clipId -> [file, start, end]
 
-function setBtn(b, state) {
-  if (activeBtn && activeBtn !== b) {
-    activeBtn.classList.remove('loading');
+let ctx = null;
+const buffers = {};   // file -> AudioBuffer
+const fetching = {};  // file -> Promise
+let srcNode = null;     // 再生中のソース
+let token = 0;          // 最後に押されたボタンの識別子
+let activeBtn = null;
+
+function resetBtn() {
+  if (activeBtn) {
+    activeBtn.classList.remove('loading', 'playing');
     activeBtn.textContent = activeBtn.dataset.label;
+    activeBtn = null;
   }
-  activeBtn = b;
-  b.classList.toggle('loading', state === 'loading');
-  b.textContent = state === 'loading' ? '読込中…' : b.dataset.label;
 }
 
-function getPlayer(file) {
-  let a = players[file];
-  if (!a) {
-    a = new Audio(file);
-    a.preload = 'auto';
-    a.addEventListener('timeupdate', () => {
-      if (a.currentTime >= stopAt - 0.05) a.pause();
-    });
-    players[file] = a;
+function stopCurrent() {
+  if (srcNode) {
+    try { srcNode.onended = null; srcNode.stop(); } catch (e) {}
+    srcNode = null;
   }
-  return a;
+  resetBtn();
+}
+
+function loadBuffer(file) {
+  if (buffers[file]) return Promise.resolve(buffers[file]);
+  if (!fetching[file]) {
+    fetching[file] = fetch(file)
+      .then(r => { if (!r.ok) throw new Error(r.status); return r.arrayBuffer(); })
+      .then(ab => new Promise((res, rej) => ctx.decodeAudioData(ab, res, rej)))
+      .then(buf => { buffers[file] = buf; return buf; })
+      .catch(err => { delete fetching[file]; throw err; });
+  }
+  return fetching[file];
+}
+
+function playClip(btn) {
+  const info = CLIPS[btn.dataset.c];
+  if (!info) { alert('音声データが見つかりません'); return; }
+  const [file, start, end] = info;
+
+  if (!ctx) ctx = new (window.AudioContext || window.webkitAudioContext)();
+  if (ctx.state === 'suspended') ctx.resume();
+
+  stopCurrent();
+  const myToken = ++token;
+  activeBtn = btn;
+  btn.dataset.label = btn.dataset.label || btn.textContent;
+
+  const buf = buffers[file];
+  const startPlayback = (buffer) => {
+    if (myToken !== token) return;  // その間に別ボタンが押された
+    btn.classList.remove('loading');
+    btn.textContent = btn.dataset.label;
+    btn.classList.add('playing');
+    const s = ctx.createBufferSource();
+    s.buffer = buffer;
+    s.connect(ctx.destination);
+    s.onended = () => { if (myToken === token) { srcNode = null; resetBtn(); } };
+    srcNode = s;
+    s.start(0, start, end - start);
+  };
+
+  if (buf) {
+    startPlayback(buf);
+  } else {
+    btn.classList.add('loading');
+    btn.textContent = '読込中…';
+    loadBuffer(file).then(startPlayback).catch(() => {
+      if (myToken === token) {
+        resetBtn();
+        alert('音声の読み込みに失敗しました。電波の良いところでもう一度試してください。');
+      }
+    });
+  }
 }
 
 document.querySelectorAll('button.play').forEach(b => {
   b.dataset.label = b.textContent;
-  b.addEventListener('click', () => {
-    const [file, start, end] = CLIPS[b.dataset.c];
-    const a = getPlayer(file);
-    if (current && current !== a) current.pause();
-    current = a;
-    stopAt = end;
-    const go = () => {
-      setBtn(b, 'ready');
-      a.currentTime = start;
-      a.play();
-    };
-    if (a.readyState >= 2) {
-      go();
-    } else {
-      setBtn(b, 'loading');
-      a.addEventListener('canplay', go, { once: true });
-      a.load();
-    }
-  });
+  b.addEventListener('click', () => playClip(b));
 });
 
 function jump() {

@@ -28,11 +28,12 @@ header p { font-size:.75rem; opacity:.85; margin-top:2px; }
 .row .txt small { display:block; font-style:normal; color:#888; font-size:.75rem; }
 button.play { flex-shrink:0; background:var(--teal); color:#fff; border:none;
         border-radius:18px; padding:7px 12px; font-size:.85rem; font-weight:700;
-        display:flex; align-items:center; gap:4px; cursor:pointer; min-width:86px;
+        display:flex; align-items:center; gap:4px; cursor:pointer; min-width:92px;
         justify-content:center; }
 button.play:active { background:var(--amber); }
 button.play.word-btn { background:var(--amber); }
 button.play.loading { opacity:.6; }
+button.play.playing { outline:3px solid var(--amber); }
 footer { text-align:center; font-size:.7rem; color:#888; padding:20px; }
 </style>
 </head>
@@ -46,7 +47,7 @@ footer { text-align:center; font-size:.7rem; color:#888; padding:20px; }
 <div class="wline"><span class="num">1</span><span class="word">New Zealand</span><span class="mean">ニュージーランド</span></div>
 <div class="row"><button class="play word-btn" data-c="u4_001_w.mp3">🔊 単語</button><span class="txt">New Zealand</span></div>
 <div class="row"><button class="play" data-c="u4_001_e1.mp3">🔊 例文①</button><span class="txt">Hello from New Zealand!<small>ニュージーランドからこんにちは！</small></span></div>
-<div class="row"><button class="play" data-c="u4_001_e2.mp3">🔊 例文②</button><span class="txt">I want to visit New Zealand.<small>私はいつかニュージーランドを訪れたいです。</small></span></div>
+<div class="row"><button class="play" data-c="u4_001_e2.mp3">🔊 例文②</button><span class="txt">I want to visit New Zealand.<small>私はニュージーランドを訪れたいです。</small></span></div>
 </div>
 <div class="card" id="w002">
 <div class="wline"><span class="num">2</span><span class="word">puppy, puppies</span><span class="mean">子イヌ</span></div>
@@ -69,7 +70,7 @@ footer { text-align:center; font-size:.7rem; color:#888; padding:20px; }
 <div class="card" id="w005">
 <div class="wline"><span class="num">5</span><span class="word">lot</span><span class="mean">[a lotまたはlotsで]たくさん</span></div>
 <div class="row"><button class="play word-btn" data-c="u4_005_w.mp3">🔊 単語</button><span class="txt">lot</span></div>
-<div class="row"><button class="play" data-c="u4_005_e1.mp3">🔊 例文①</button><span class="txt">You have a lot of animals!<small>あなたはたくさんの動物を飼っていますね！</small></span></div>
+<div class="row"><button class="play" data-c="u4_005_e1.mp3">🔊 例文①</button><span class="txt">You have a lot of animals!<small>あなたはたくさんの動物を飼っています！</small></span></div>
 <div class="row"><button class="play" data-c="u4_005_e2.mp3">🔊 例文②</button><span class="txt">Thanks a lot.<small>どうもありがとう。</small></span></div>
 </div>
 <div class="card" id="w006">
@@ -111,7 +112,7 @@ footer { text-align:center; font-size:.7rem; color:#888; padding:20px; }
 <div class="card" id="w012">
 <div class="wline"><span class="num">●</span><span class="word">a lot of</span><span class="mean">たくさんの、多数の</span></div>
 <div class="row"><button class="play word-btn" data-c="u4_012_w.mp3">🔊 単語</button><span class="txt">a lot of</span></div>
-<div class="row"><button class="play" data-c="u4_012_e1.mp3">🔊 例文①</button><span class="txt">You have a lot of animals!<small>あなたはたくさんの動物を飼っていますね！</small></span></div>
+<div class="row"><button class="play" data-c="u4_012_e1.mp3">🔊 例文①</button><span class="txt">You have a lot of animals!<small>あなたはたくさんの動物を飼っています！</small></span></div>
 <div class="row"><button class="play" data-c="u4_012_e2.mp3">🔊 例文②</button><span class="txt">I have a lot of comic books.<small>私はたくさんのマンガ本を持っています。</small></span></div>
 </div>
 <div class="card" id="w013">
@@ -155,7 +156,7 @@ footer { text-align:center; font-size:.7rem; color:#888; padding:20px; }
 <div class="wline"><span class="num">5</span><span class="word">netball</span><span class="mean">ネットボール</span></div>
 <div class="row"><button class="play word-btn" data-c="u4_019_w.mp3">🔊 単語</button><span class="txt">netball</span></div>
 <div class="row"><button class="play" data-c="u4_019_e1.mp3">🔊 例文①</button><span class="txt">I play soccer, tennis, netball ....<small>私はサッカー、テニス、ネットボールなどをします。</small></span></div>
-<div class="row"><button class="play" data-c="u4_019_e2.mp3">🔊 例文②</button><span class="txt">I want to play netball.<small>私はネットボールをしてみたいです。</small></span></div>
+<div class="row"><button class="play" data-c="u4_019_e2.mp3">🔊 例文②</button><span class="txt">I want to play netball.<small>私はネットボールをしたいです。</small></span></div>
 </div>
 <div class="card" id="w020">
 <div class="wline"><span class="num">6</span><span class="word">time</span><span class="mean">時刻</span></div>
@@ -209,7 +210,7 @@ footer { text-align:center; font-size:.7rem; color:#888; padding:20px; }
 <div class="card" id="w028">
 <div class="wline"><span class="num">2</span><span class="word">be</span><span class="mean">…である、…になる</span></div>
 <div class="row"><button class="play word-btn" data-c="u4_028_w.mp3">🔊 単語</button><span class="txt">be</span></div>
-<div class="row"><button class="play" data-c="u4_028_e1.mp3">🔊 例文①</button><span class="txt">Be brave.<small>勇かんでいなさい。</small></span></div>
+<div class="row"><button class="play" data-c="u4_028_e1.mp3">🔊 例文①</button><span class="txt">Be brave.<small>勇かんになりなさい。</small></span></div>
 <div class="row"><button class="play" data-c="u4_028_e2.mp3">🔊 例文②</button><span class="txt">Be kind to everyone.<small>みんなにやさしくしなさい。</small></span></div>
 </div>
 <div class="card" id="w029">
@@ -227,7 +228,7 @@ footer { text-align:center; font-size:.7rem; color:#888; padding:20px; }
 <div class="card" id="w031">
 <div class="wline"><span class="num">5</span><span class="word">yourself</span><span class="mean">あなた自身を[に]</span></div>
 <div class="row"><button class="play word-btn" data-c="u4_031_w.mp3">🔊 単語</button><span class="txt">yourself</span></div>
-<div class="row"><button class="play" data-c="u4_031_e1.mp3">🔊 例文①</button><span class="txt">Enjoy yourself.<small>楽しんでね。</small></span></div>
+<div class="row"><button class="play" data-c="u4_031_e1.mp3">🔊 例文①</button><span class="txt">Enjoy yourself.<small>楽しんでください。</small></span></div>
 <div class="row"><button class="play" data-c="u4_031_e2.mp3">🔊 例文②</button><span class="txt">Please enjoy yourself.<small>どうぞ楽しんでください。</small></span></div>
 </div>
 <div class="card" id="w032">
@@ -269,7 +270,7 @@ footer { text-align:center; font-size:.7rem; color:#888; padding:20px; }
 <div class="card" id="w038">
 <div class="wline"><span class="num">●</span><span class="word">enjoy oneself</span><span class="mean">楽しむ、楽しく過ごす</span></div>
 <div class="row"><button class="play word-btn" data-c="u4_038_w.mp3">🔊 単語</button><span class="txt">enjoy oneself</span></div>
-<div class="row"><button class="play" data-c="u4_038_e1.mp3">🔊 例文①</button><span class="txt">Enjoy yourself.<small>楽しんでね。</small></span></div>
+<div class="row"><button class="play" data-c="u4_038_e1.mp3">🔊 例文①</button><span class="txt">Enjoy yourself.<small>楽しんでください。</small></span></div>
 <div class="row"><button class="play" data-c="u4_038_e2.mp3">🔊 例文②</button><span class="txt">Enjoy yourself in Japan.<small>日本で楽しんでください。</small></span></div>
 </div>
 <div class="card" id="w039">
@@ -280,54 +281,87 @@ footer { text-align:center; font-size:.7rem; color:#888; padding:20px; }
 </div>
 <footer>Fuki Elementary and Middle School</footer>
 <script>
-const CLIPS = {"u4_001_w.mp3": ["u4_s1.mp3", 0.0, 1.97], "u4_001_e1.mp3": ["u4_s1.mp3", 2.37, 8.27], "u4_001_e2.mp3": ["u4_s1.mp3", 8.67, 15.94], "u4_002_w.mp3": ["u4_s1.mp3", 16.34, 18.77], "u4_002_e1.mp3": ["u4_s1.mp3", 19.17, 27.88], "u4_002_e2.mp3": ["u4_s1.mp3", 28.28, 35.02], "u4_003_w.mp3": ["u4_s1.mp3", 35.42, 36.86], "u4_003_e1.mp3": ["u4_s1.mp3", 37.26, 45.42], "u4_003_e2.mp3": ["u4_s1.mp3", 45.82, 52.33], "u4_004_w.mp3": ["u4_s1.mp3", 52.73, 54.5], "u4_004_e1.mp3": ["u4_s1.mp3", 54.9, 61.84], "u4_004_e2.mp3": ["u4_s1.mp3", 62.24, 69.1], "u4_005_w.mp3": ["u4_s1.mp3", 69.5, 71.14], "u4_005_e1.mp3": ["u4_s1.mp3", 71.54, 78.59], "u4_005_e2.mp3": ["u4_s1.mp3", 78.99, 83.89], "u4_006_w.mp3": ["u4_s1.mp3", 84.29, 85.85], "u4_006_e1.mp3": ["u4_s1.mp3", 86.25, 91.86], "u4_006_e2.mp3": ["u4_s1.mp3", 92.26, 98.05], "u4_007_w.mp3": ["u4_s1.mp3", 98.45, 100.97], "u4_007_e1.mp3": ["u4_s1.mp3", 101.37, 108.09], "u4_007_e2.mp3": ["u4_s1.mp3", 108.49, 114.87], "u4_008_w.mp3": ["u4_s1.mp3", 115.27, 117.0], "u4_008_e1.mp3": ["u4_s1.mp3", 117.4, 124.34], "u4_008_e2.mp3": ["u4_s1.mp3", 124.74, 131.34], "u4_009_w.mp3": ["u4_s1.mp3", 131.74, 133.51], "u4_009_e1.mp3": ["u4_s1.mp3", 133.91, 140.85], "u4_009_e2.mp3": ["u4_s1.mp3", 141.25, 146.91], "u4_010_w.mp3": ["u4_s1.mp3", 147.31, 149.09], "u4_010_e1.mp3": ["u4_s1.mp3", 149.49, 156.42], "u4_010_e2.mp3": ["u4_s1.mp3", 156.82, 163.21], "u4_011_w.mp3": ["u4_s1.mp3", 163.61, 165.29], "u4_011_e1.mp3": ["u4_s1.mp3", 165.69, 173.85], "u4_011_e2.mp3": ["u4_s1.mp3", 174.25, 181.86], "u4_012_w.mp3": ["u4_s1.mp3", 182.26, 184.1], "u4_012_e1.mp3": ["u4_s1.mp3", 184.5, 191.56], "u4_012_e2.mp3": ["u4_s1.mp3", 191.96, 199.21], "u4_013_w.mp3": ["u4_s1.mp3", 199.61, 201.46], "u4_013_e1.mp3": ["u4_s1.mp3", 201.86, 208.79], "u4_013_e2.mp3": ["u4_s1.mp3", 209.19, 216.03], "u4_014_w.mp3": ["u4_s1.mp3", 216.43, 218.02], "u4_014_e1.mp3": ["u4_s1.mp3", 218.42, 224.03], "u4_014_e2.mp3": ["u4_s1.mp3", 224.43, 230.17], "u4_015_w.mp3": ["u4_s2.mp3", 0.0, 1.61], "u4_015_e1.mp3": ["u4_s2.mp3", 2.01, 8.13], "u4_015_e2.mp3": ["u4_s2.mp3", 8.53, 15.06], "u4_016_w.mp3": ["u4_s2.mp3", 15.46, 17.16], "u4_016_e1.mp3": ["u4_s2.mp3", 17.56, 24.3], "u4_016_e2.mp3": ["u4_s2.mp3", 24.7, 30.85], "u4_017_w.mp3": ["u4_s2.mp3", 31.25, 32.93], "u4_017_e1.mp3": ["u4_s2.mp3", 33.33, 40.58], "u4_017_e2.mp3": ["u4_s2.mp3", 40.98, 47.36], "u4_018_w.mp3": ["u4_s2.mp3", 47.76, 49.58], "u4_018_e1.mp3": ["u4_s2.mp3", 49.98, 55.12], "u4_018_e2.mp3": ["u4_s2.mp3", 55.52, 60.97], "u4_019_w.mp3": ["u4_s2.mp3", 61.37, 63.14], "u4_019_e1.mp3": ["u4_s2.mp3", 63.54, 72.54], "u4_019_e2.mp3": ["u4_s2.mp3", 72.94, 79.3], "u4_020_w.mp3": ["u4_s2.mp3", 79.7, 81.34], "u4_020_e1.mp3": ["u4_s2.mp3", 81.74, 86.46], "u4_020_e2.mp3": ["u4_s2.mp3", 86.86, 92.31], "u4_021_w.mp3": ["u4_s2.mp3", 92.71, 94.61], "u4_021_e1.mp3": ["u4_s2.mp3", 95.01, 100.34], "u4_021_e2.mp3": ["u4_s2.mp3", 100.74, 107.48], "u4_022_w.mp3": ["u4_s2.mp3", 107.88, 110.5], "u4_022_e1.mp3": ["u4_s2.mp3", 110.9, 117.52], "u4_022_e2.mp3": ["u4_s2.mp3", 117.92, 124.33], "u4_023_w.mp3": ["u4_s2.mp3", 124.73, 126.36], "u4_023_e1.mp3": ["u4_s2.mp3", 126.76, 132.86], "u4_023_e2.mp3": ["u4_s2.mp3", 133.26, 139.09], "u4_024_w.mp3": ["u4_s2.mp3", 139.49, 141.17], "u4_024_e1.mp3": ["u4_s2.mp3", 141.57, 147.78], "u4_024_e2.mp3": ["u4_s2.mp3", 148.18, 155.94], "u4_025_w.mp3": ["u4_s2.mp3", 156.34, 158.33], "u4_025_e1.mp3": ["u4_s2.mp3", 158.73, 165.98], "u4_025_e2.mp3": ["u4_s2.mp3", 166.38, 174.06], "u4_026_w.mp3": ["u4_s2.mp3", 174.46, 176.23], "u4_026_e1.mp3": ["u4_s2.mp3", 176.63, 181.79], "u4_026_e2.mp3": ["u4_s2.mp3", 182.19, 186.73], "u4_027_w.mp3": ["u4_s3.mp3", 0.0, 1.78], "u4_027_e1.mp3": ["u4_s3.mp3", 2.18, 7.89], "u4_027_e2.mp3": ["u4_s3.mp3", 8.29, 14.02], "u4_028_w.mp3": ["u4_s3.mp3", 14.42, 15.94], "u4_028_e1.mp3": ["u4_s3.mp3", 16.34, 21.14], "u4_028_e2.mp3": ["u4_s3.mp3", 21.54, 27.27], "u4_029_w.mp3": ["u4_s3.mp3", 27.67, 29.47], "u4_029_e1.mp3": ["u4_s3.mp3", 29.87, 35.97], "u4_029_e2.mp3": ["u4_s3.mp3", 36.37, 41.29], "u4_030_w.mp3": ["u4_s3.mp3", 41.69, 43.37], "u4_030_e1.mp3": ["u4_s3.mp3", 43.77, 48.45], "u4_030_e2.mp3": ["u4_s3.mp3", 48.85, 54.66], "u4_031_w.mp3": ["u4_s3.mp3", 55.06, 56.95], "u4_031_e1.mp3": ["u4_s3.mp3", 57.35, 62.22], "u4_031_e2.mp3": ["u4_s3.mp3", 62.62, 68.46], "u4_032_w.mp3": ["u4_s3.mp3", 68.86, 70.44], "u4_032_e1.mp3": ["u4_s3.mp3", 70.84, 78.11], "u4_032_e2.mp3": ["u4_s3.mp3", 78.51, 84.34], "u4_033_w.mp3": ["u4_s3.mp3", 84.74, 87.29], "u4_033_e1.mp3": ["u4_s3.mp3", 87.69, 93.38], "u4_033_e2.mp3": ["u4_s3.mp3", 93.78, 99.75], "u4_034_w.mp3": ["u4_s3.mp3", 100.15, 101.83], "u4_034_e1.mp3": ["u4_s3.mp3", 102.23, 108.42], "u4_034_e2.mp3": ["u4_s3.mp3", 108.82, 115.14], "u4_035_w.mp3": ["u4_s3.mp3", 115.54, 117.07], "u4_035_e1.mp3": ["u4_s3.mp3", 117.47, 122.2], "u4_035_e2.mp3": ["u4_s3.mp3", 122.6, 128.14], "u4_036_w.mp3": ["u4_s3.mp3", 128.54, 130.22], "u4_036_e1.mp3": ["u4_s3.mp3", 130.62, 136.34], "u4_036_e2.mp3": ["u4_s3.mp3", 136.74, 141.9], "u4_037_w.mp3": ["u4_s3.mp3", 142.3, 143.9], "u4_037_e1.mp3": ["u4_s3.mp3", 144.3, 149.92], "u4_037_e2.mp3": ["u4_s3.mp3", 150.32, 157.71], "u4_038_w.mp3": ["u4_s3.mp3", 158.11, 160.44], "u4_038_e1.mp3": ["u4_s3.mp3", 160.84, 165.71], "u4_038_e2.mp3": ["u4_s3.mp3", 166.11, 172.26], "u4_039_w.mp3": ["u4_s3.mp3", 172.66, 174.5], "u4_039_e1.mp3": ["u4_s3.mp3", 174.9, 180.52], "u4_039_e2.mp3": ["u4_s3.mp3", 180.92, 185.74]};
-const players = {};
-let current = null, stopAt = 0, activeBtn = null;
+const CLIPS = {"u4_001_w.mp3": ["u4_s1.m4a", 0.0, 2.088], "u4_001_e1.mp3": ["u4_s1.m4a", 2.308, 8.344], "u4_001_e2.mp3": ["u4_s1.m4a", 8.564, 15.608], "u4_002_w.mp3": ["u4_s1.m4a", 15.828, 18.432], "u4_002_e1.mp3": ["u4_s1.m4a", 18.652, 27.496], "u4_002_e2.mp3": ["u4_s1.m4a", 27.716, 34.592], "u4_003_w.mp3": ["u4_s1.m4a", 34.812, 36.432], "u4_003_e1.mp3": ["u4_s1.m4a", 36.652, 44.944], "u4_003_e2.mp3": ["u4_s1.m4a", 45.164, 51.8], "u4_004_w.mp3": ["u4_s1.m4a", 52.02, 53.976], "u4_004_e1.mp3": ["u4_s1.m4a", 54.196, 61.264], "u4_004_e2.mp3": ["u4_s1.m4a", 61.484, 68.48], "u4_005_w.mp3": ["u4_s1.m4a", 68.7, 70.512], "u4_005_e1.mp3": ["u4_s1.m4a", 70.732, 77.776], "u4_005_e2.mp3": ["u4_s1.m4a", 77.996, 83.024], "u4_006_w.mp3": ["u4_s1.m4a", 83.244, 84.984], "u4_006_e1.mp3": ["u4_s1.m4a", 85.204, 90.952], "u4_006_e2.mp3": ["u4_s1.m4a", 91.172, 97.088], "u4_007_w.mp3": ["u4_s1.m4a", 97.308, 100.008], "u4_007_e1.mp3": ["u4_s1.m4a", 100.228, 107.08], "u4_007_e2.mp3": ["u4_s1.m4a", 107.3, 113.816], "u4_008_w.mp3": ["u4_s1.m4a", 114.036, 115.944], "u4_008_e1.mp3": ["u4_s1.m4a", 116.164, 123.232], "u4_008_e2.mp3": ["u4_s1.m4a", 123.452, 130.184], "u4_009_w.mp3": ["u4_s1.m4a", 130.404, 132.36], "u4_009_e1.mp3": ["u4_s1.m4a", 132.58, 139.648], "u4_009_e2.mp3": ["u4_s1.m4a", 139.868, 145.664], "u4_010_w.mp3": ["u4_s1.m4a", 145.884, 147.84], "u4_010_e1.mp3": ["u4_s1.m4a", 148.06, 155.128], "u4_010_e2.mp3": ["u4_s1.m4a", 155.348, 161.864], "u4_011_w.mp3": ["u4_s1.m4a", 162.084, 163.944], "u4_011_e1.mp3": ["u4_s1.m4a", 164.164, 172.456], "u4_011_e2.mp3": ["u4_s1.m4a", 172.676, 180.416], "u4_012_w.mp3": ["u4_s1.m4a", 180.636, 182.664], "u4_012_e1.mp3": ["u4_s1.m4a", 182.884, 189.928], "u4_012_e2.mp3": ["u4_s1.m4a", 190.148, 197.528], "u4_013_w.mp3": ["u4_s1.m4a", 197.748, 199.776], "u4_013_e1.mp3": ["u4_s1.m4a", 199.996, 207.064], "u4_013_e2.mp3": ["u4_s1.m4a", 207.284, 214.256], "u4_014_w.mp3": ["u4_s1.m4a", 214.476, 216.24], "u4_014_e1.mp3": ["u4_s1.m4a", 216.46, 222.208], "u4_014_e2.mp3": ["u4_s1.m4a", 222.428, 228.296], "u4_015_w.mp3": ["u4_s2.m4a", 0.0, 1.728], "u4_015_e1.mp3": ["u4_s2.m4a", 1.948, 8.2], "u4_015_e2.mp3": ["u4_s2.m4a", 8.42, 15.08], "u4_016_w.mp3": ["u4_s2.m4a", 15.3, 17.184], "u4_016_e1.mp3": ["u4_s2.m4a", 17.404, 24.28], "u4_016_e2.mp3": ["u4_s2.m4a", 24.5, 30.776], "u4_017_w.mp3": ["u4_s2.m4a", 30.996, 32.856], "u4_017_e1.mp3": ["u4_s2.m4a", 33.076, 40.456], "u4_017_e2.mp3": ["u4_s2.m4a", 40.676, 47.192], "u4_018_w.mp3": ["u4_s2.m4a", 47.412, 49.416], "u4_018_e1.mp3": ["u4_s2.m4a", 49.636, 54.904], "u4_018_e2.mp3": ["u4_s2.m4a", 55.124, 60.704], "u4_019_w.mp3": ["u4_s2.m4a", 60.924, 62.88], "u4_019_e1.mp3": ["u4_s2.m4a", 63.1, 72.232], "u4_019_e2.mp3": ["u4_s2.m4a", 72.452, 78.728], "u4_020_w.mp3": ["u4_s2.m4a", 78.948, 80.76], "u4_020_e1.mp3": ["u4_s2.m4a", 80.98, 85.84], "u4_020_e2.mp3": ["u4_s2.m4a", 86.06, 91.64], "u4_021_w.mp3": ["u4_s2.m4a", 91.86, 93.936], "u4_021_e1.mp3": ["u4_s2.m4a", 94.156, 99.616], "u4_021_e2.mp3": ["u4_s2.m4a", 99.836, 106.712], "u4_022_w.mp3": ["u4_s2.m4a", 106.932, 109.728], "u4_022_e1.mp3": ["u4_s2.m4a", 109.948, 116.704], "u4_022_e2.mp3": ["u4_s2.m4a", 116.924, 123.464], "u4_023_w.mp3": ["u4_s2.m4a", 123.684, 125.496], "u4_023_e1.mp3": ["u4_s2.m4a", 125.716, 131.944], "u4_023_e2.mp3": ["u4_s2.m4a", 132.164, 138.128], "u4_024_w.mp3": ["u4_s2.m4a", 138.348, 140.208], "u4_024_e1.mp3": ["u4_s2.m4a", 140.428, 146.776], "u4_024_e2.mp3": ["u4_s2.m4a", 146.996, 154.88], "u4_025_w.mp3": ["u4_s2.m4a", 155.1, 157.272], "u4_025_e1.mp3": ["u4_s2.m4a", 157.492, 164.872], "u4_025_e2.mp3": ["u4_s2.m4a", 165.092, 172.904], "u4_026_w.mp3": ["u4_s2.m4a", 173.124, 175.08], "u4_026_e1.mp3": ["u4_s2.m4a", 175.3, 180.592], "u4_026_e2.mp3": ["u4_s2.m4a", 180.812, 185.48], "u4_027_w.mp3": ["u4_s3.m4a", 0.0, 1.896], "u4_027_e1.mp3": ["u4_s3.m4a", 2.116, 7.96], "u4_027_e2.mp3": ["u4_s3.m4a", 8.18, 14.048], "u4_028_w.mp3": ["u4_s3.m4a", 14.268, 15.96], "u4_028_e1.mp3": ["u4_s3.m4a", 16.18, 21.232], "u4_028_e2.mp3": ["u4_s3.m4a", 21.452, 27.32], "u4_029_w.mp3": ["u4_s3.m4a", 27.54, 29.52], "u4_029_e1.mp3": ["u4_s3.m4a", 29.74, 35.968], "u4_029_e2.mp3": ["u4_s3.m4a", 36.188, 41.24], "u4_030_w.mp3": ["u4_s3.m4a", 41.46, 43.32], "u4_030_e1.mp3": ["u4_s3.m4a", 43.54, 48.352], "u4_030_e2.mp3": ["u4_s3.m4a", 48.572, 54.512], "u4_031_w.mp3": ["u4_s3.m4a", 54.732, 56.808], "u4_031_e1.mp3": ["u4_s3.m4a", 57.028, 62.32], "u4_031_e2.mp3": ["u4_s3.m4a", 62.54, 68.504], "u4_032_w.mp3": ["u4_s3.m4a", 68.724, 70.488], "u4_032_e1.mp3": ["u4_s3.m4a", 70.708, 78.112], "u4_032_e2.mp3": ["u4_s3.m4a", 78.332, 84.296], "u4_033_w.mp3": ["u4_s3.m4a", 84.516, 87.24], "u4_033_e1.mp3": ["u4_s3.m4a", 87.46, 93.28], "u4_033_e2.mp3": ["u4_s3.m4a", 93.5, 99.608], "u4_034_w.mp3": ["u4_s3.m4a", 99.828, 101.688], "u4_034_e1.mp3": ["u4_s3.m4a", 101.908, 108.232], "u4_034_e2.mp3": ["u4_s3.m4a", 108.452, 114.896], "u4_035_w.mp3": ["u4_s3.m4a", 115.116, 116.832], "u4_035_e1.mp3": ["u4_s3.m4a", 117.052, 121.912], "u4_035_e2.mp3": ["u4_s3.m4a", 122.132, 127.808], "u4_036_w.mp3": ["u4_s3.m4a", 128.028, 129.888], "u4_036_e1.mp3": ["u4_s3.m4a", 130.108, 135.952], "u4_036_e2.mp3": ["u4_s3.m4a", 136.172, 141.464], "u4_037_w.mp3": ["u4_s3.m4a", 141.684, 143.472], "u4_037_e1.mp3": ["u4_s3.m4a", 143.692, 149.44], "u4_037_e2.mp3": ["u4_s3.m4a", 149.66, 157.184], "u4_038_w.mp3": ["u4_s3.m4a", 157.404, 159.912], "u4_038_e1.mp3": ["u4_s3.m4a", 160.132, 165.424], "u4_038_e2.mp3": ["u4_s3.m4a", 165.644, 171.92], "u4_039_w.mp3": ["u4_s3.m4a", 172.14, 174.168], "u4_039_e1.mp3": ["u4_s3.m4a", 174.388, 180.136], "u4_039_e2.mp3": ["u4_s3.m4a", 180.356, 185.312]};  // clipId -> [file, start, end]
 
-function setBtn(b, state) {
-  if (activeBtn && activeBtn !== b) {
-    activeBtn.classList.remove('loading');
+let ctx = null;
+const buffers = {};   // file -> AudioBuffer
+const fetching = {};  // file -> Promise
+let srcNode = null;     // 再生中のソース
+let token = 0;          // 最後に押されたボタンの識別子
+let activeBtn = null;
+
+function resetBtn() {
+  if (activeBtn) {
+    activeBtn.classList.remove('loading', 'playing');
     activeBtn.textContent = activeBtn.dataset.label;
+    activeBtn = null;
   }
-  activeBtn = b;
-  b.classList.toggle('loading', state === 'loading');
-  b.textContent = state === 'loading' ? '読込中…' : b.dataset.label;
 }
 
-function getPlayer(file) {
-  let a = players[file];
-  if (!a) {
-    a = new Audio(file);
-    a.preload = 'auto';
-    a.addEventListener('timeupdate', () => {
-      if (a.currentTime >= stopAt - 0.05) a.pause();
-    });
-    players[file] = a;
+function stopCurrent() {
+  if (srcNode) {
+    try { srcNode.onended = null; srcNode.stop(); } catch (e) {}
+    srcNode = null;
   }
-  return a;
+  resetBtn();
+}
+
+function loadBuffer(file) {
+  if (buffers[file]) return Promise.resolve(buffers[file]);
+  if (!fetching[file]) {
+    fetching[file] = fetch(file)
+      .then(r => { if (!r.ok) throw new Error(r.status); return r.arrayBuffer(); })
+      .then(ab => new Promise((res, rej) => ctx.decodeAudioData(ab, res, rej)))
+      .then(buf => { buffers[file] = buf; return buf; })
+      .catch(err => { delete fetching[file]; throw err; });
+  }
+  return fetching[file];
+}
+
+function playClip(btn) {
+  const info = CLIPS[btn.dataset.c];
+  if (!info) { alert('音声データが見つかりません'); return; }
+  const [file, start, end] = info;
+
+  if (!ctx) ctx = new (window.AudioContext || window.webkitAudioContext)();
+  if (ctx.state === 'suspended') ctx.resume();
+
+  stopCurrent();
+  const myToken = ++token;
+  activeBtn = btn;
+  btn.dataset.label = btn.dataset.label || btn.textContent;
+
+  const buf = buffers[file];
+  const startPlayback = (buffer) => {
+    if (myToken !== token) return;  // その間に別ボタンが押された
+    btn.classList.remove('loading');
+    btn.textContent = btn.dataset.label;
+    btn.classList.add('playing');
+    const s = ctx.createBufferSource();
+    s.buffer = buffer;
+    s.connect(ctx.destination);
+    s.onended = () => { if (myToken === token) { srcNode = null; resetBtn(); } };
+    srcNode = s;
+    s.start(0, start, end - start);
+  };
+
+  if (buf) {
+    startPlayback(buf);
+  } else {
+    btn.classList.add('loading');
+    btn.textContent = '読込中…';
+    loadBuffer(file).then(startPlayback).catch(() => {
+      if (myToken === token) {
+        resetBtn();
+        alert('音声の読み込みに失敗しました。電波の良いところでもう一度試してください。');
+      }
+    });
+  }
 }
 
 document.querySelectorAll('button.play').forEach(b => {
   b.dataset.label = b.textContent;
-  b.addEventListener('click', () => {
-    const [file, start, end] = CLIPS[b.dataset.c];
-    const a = getPlayer(file);
-    if (current && current !== a) current.pause();
-    current = a;
-    stopAt = end;
-    const go = () => {
-      setBtn(b, 'ready');
-      a.currentTime = start;
-      a.play();
-    };
-    if (a.readyState >= 2) {
-      go();
-    } else {
-      setBtn(b, 'loading');
-      a.addEventListener('canplay', go, { once: true });
-      a.load();
-    }
-  });
+  b.addEventListener('click', () => playClip(b));
 });
 
 function jump() {
