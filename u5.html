@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unit 5　単語音声プレーヤー</title>
+<style>
+:root { --teal:#1B5757; --amber:#E8A33D; --cream:#FFF7E6; }
+* { box-sizing:border-box; margin:0; padding:0; }
+body { font-family:"UD デジタル 教科書体 NK-R","Hiragino Sans","Yu Gothic",sans-serif;
+       background:#f5f2ea; color:#222; padding-bottom:60px; }
+header { background:var(--teal); color:#fff; padding:14px 16px; position:sticky; top:0; z-index:5; }
+header h1 { font-size:1.05rem; font-weight:700; }
+header p { font-size:.75rem; opacity:.85; margin-top:2px; }
+.sec { background:var(--amber); color:#fff; font-weight:700; font-size:.9rem;
+        padding:6px 14px; margin-top:14px; }
+.card { background:#fff; margin:8px 10px; border-radius:10px; padding:10px 12px;
+         border:1px solid #e0dccc; scroll-margin-top:70px; }
+.card.hit { border:2px solid var(--amber); background:var(--cream);
+             animation:flash 1.2s ease 2; }
+@keyframes flash { 50% { background:#ffe9c2; } }
+.wline { display:flex; align-items:baseline; gap:8px; flex-wrap:wrap; }
+.num { color:var(--amber); font-weight:700; font-size:.8rem; min-width:1.4em; }
+.word { color:var(--teal); font-weight:700; font-size:1.25rem; }
+.mean { font-size:.85rem; color:#555; }
+.row { display:flex; align-items:center; gap:8px; margin-top:7px; }
+.row .txt { font-size:.9rem; font-style:italic; color:#333; flex:1; }
+.row .txt small { display:block; font-style:normal; color:#888; font-size:.75rem; }
+button.play { flex-shrink:0; background:var(--teal); color:#fff; border:none;
+        border-radius:18px; padding:7px 12px; font-size:.85rem; font-weight:700;
+        display:flex; align-items:center; gap:4px; cursor:pointer; min-width:92px;
+        justify-content:center; }
+button.play:active { background:var(--amber); }
+button.play.word-btn { background:var(--amber); }
+button.play.loading { opacity:.6; }
+button.play.playing { outline:3px solid var(--amber); }
+footer { text-align:center; font-size:.7rem; color:#888; padding:20px; }
+</style>
+</head>
+<body>
+<header>
+<h1>New Horizon　Unit 5　単語音声</h1>
+<p>ボタンをおすと音声が流れます 🔊　例文は英語のあとに日本語訳が流れます</p>
+</header>
+<div class="sec">Unit 5　My Brother in Hawaii ／ Part 1</div>
+<div class="card" id="w001">
+<div class="wline"><span class="num">1</span><span class="word">as</span><span class="mean">…として</span></div>
+<div class="row"><button class="play word-btn" data-c="u5_001_w.mp3">🔊 単語</button><span class="txt">as</span></div>
+<div class="row"><button class="play" data-c="u5_001_e1.mp3">🔊 例文①</button><span class="txt">He works as a tour guide.<small>彼はツアーガイドとして働いています。</small></span></div>
+<div class="row"><button class="play" data-c="u5_001_e2.mp3">🔊 例文②</button><span class="txt">She works as a teacher.<small>彼女は先生として働いています。</small></span></div>
+</div>
+<div class="card" id="w002">
+<div class="wline"><span class="num">2</span><span class="word">tour</span><span class="mean">旅行、ツアー、見学</span></div>
+<div class="row"><button class="play word-btn" data-c="u5_002_w.mp3">🔊 単語</button><span class="txt">tour</span></div>
+<div class="row"><button class="play" data-c="u5_002_e1.mp3">🔊 例文①</button><span class="txt">He works as a tour guide.<small>彼はツアーガイドとして働いています。</small></span></div>
+<div class="row"><button class="play" data-c="u5_002_e2.mp3">🔊 例文②</button><span class="txt">I want to join the tour.<small>私はそのツアーに参加したいです。</small></span></div>
+</div>
+<div class="card" id="w003">
+<div class="wline"><span class="num">3</span><span class="word">guide</span><span class="mean">ガイド、案内人</span></div>
+<div class="row"><button class="play word-btn" data-c="u5_003_w.mp3">🔊 単語</button><span class="txt">guide</span></div>
+<div class="row"><button class="play" data-c="u5_003_e1.mp3">🔊 例文①</button><span class="txt">He works as a tour guide.<small>彼はツアーガイドとして働いています。</small></span></div>
+<div class="row"><button class="play" data-c="u5_003_e2.mp3">🔊 例文②</button><span class="txt">She is a good guide.<small>彼女はよいガイドです。</small></span></div>
+</div>
+<div class="card" id="w004">
+<div class="wline"><span class="num">4</span><span class="word">write(s)</span><span class="mean">（…を）書く</span></div>
+<div class="row"><button class="play word-btn" data-c="u5_004_w.mp3">🔊 単語</button><span class="txt">write(s)</span></div>
+<div class="row"><button class="play" data-c="u5_004_e1.mp3">🔊 例文①</button><span class="txt">He writes a blog about local food, nature, and beautiful spots.<small>彼は地元の食べ物や自然、美しい場所についてのブログを書いています。</small></span></div>
+<div class="row"><button class="play" data-c="u5_004_e2.mp3">🔊 例文②</button><span class="txt">He writes about Japan.<small>彼は日本について書いています。</small></span></div>
+</div>
+<div class="card" id="w005">
+<div class="wline"><span class="num">5</span><span class="word">blog</span><span class="mean">ブログ</span></div>
+<div class="row"><button class="play word-btn" data-c="u5_005_w.mp3">🔊 単語</button><span class="txt">blog</span></div>
+<div class="row"><button class="play" data-c="u5_005_e1.mp3">🔊 例文①</button><span class="txt">He writes a blog about local food, nature, and beautiful spots.<small>彼は地元の食べ物や自然、美しい場所についてのブログを書いています。</small></span></div>
+<div class="row"><button class="play" data-c="u5_005_e2.mp3">🔊 例文②</button><span class="txt">I read his blog every day.<small>私は毎日彼のブログを読みます。</small></span></div>
+</div>
+<div class="card" id="w006">
+<div class="wline"><span class="num">6</span><span class="word">local</span><span class="mean">地方の、地元の</span></div>
+<div class="row"><button class="play word-btn" data-c="u5_006_w.mp3">🔊 単語</button><span class="txt">local</span></div>
+<div class="row"><button class="play" data-c="u5_006_e1.mp3">🔊 例文①</button><span class="txt">He writes a blog about local food, nature, and beautiful spots.<small>彼は地元の食べ物や自然、美しい場所についてのブログを書いています。</small></span></div>
+<div class="row"><button class="play" data-c="u5_006_e2.mp3">🔊 例文②</button><span class="txt">I like local food.<small>私は地元の食べ物が好きです。</small></span></div>
+</div>
+<div class="card" id="w007">
+<div class="wline"><span class="num">7</span><span class="word">beautiful</span><span class="mean">美しい</span></div>
+<div class="row"><button class="play word-btn" data-c="u5_007_w.mp3">🔊 単語</button><span class="txt">beautiful</span></div>
+<div class="row"><button class="play" data-c="u5_007_e1.mp3">🔊 例文①</button><span class="txt">He writes a blog about local food, nature, and beautiful spots.<small>彼は地元の食べ物や自然、美しい場所についてのブログを書いています。</small></span></div>
+<div class="row"><button class="play" data-c="u5_007_e2.mp3">🔊 例文②</button><span class="txt">This beach is beautiful.<small>このビーチは美しいです。</small></span></div>
+</div>
+<div class="card" id="w008">
+<div class="wline"><span class="num">8</span><span class="word">spot(s)</span><span class="mean">地点、場所</span></div>
+<div class="row"><button class="play word-btn" data-c="u5_008_w.mp3">🔊 単語</button><span class="txt">spot(s)</span></div>
+<div class="row"><button class="play" data-c="u5_008_e1.mp3">🔊 例文①</button><span class="txt">He writes a blog about local food, nature, and beautiful spots.<small>彼は地元の食べ物や自然、美しい場所についてのブログを書いています。</small></span></div>
+<div class="row"><button class="play" data-c="u5_008_e2.mp3">🔊 例文②</button><span class="txt">This park is a beautiful spot.<small>この公園は美しい場所です。</small></span></div>
+</div>
+<div class="card" id="w009">
+<div class="wline"><span class="num">9</span><span class="word">his</span><span class="mean">彼の</span></div>
+<div class="row"><button class="play word-btn" data-c="u5_009_w.mp3">🔊 単語</button><span class="txt">his</span></div>
+<div class="row"><button class="play" data-c="u5_009_e1.mp3">🔊 例文①</button><span class="txt">I enjoy reading his blog very much.<small>私は彼のブログを読んでとても楽しんでいます。</small></span></div>
+<div class="row"><button class="play" data-c="u5_009_e2.mp3">🔊 例文②</button><span class="txt">His dog is very cute.<small>彼のイヌはとてもかわいいです。</small></span></div>
+</div>
+<div class="card" id="w010">
+<div class="wline"><span class="num">10</span><span class="word">Honolulu</span><span class="mean">ホノルル[地名]</span></div>
+<div class="row"><button class="play word-btn" data-c="u5_010_w.mp3">🔊 単語</button><span class="txt">Honolulu</span></div>
+<div class="row"><button class="play" data-c="u5_010_e1.mp3">🔊 例文①</button><span class="txt">He lives in Honolulu, Hawaii.<small>彼はハワイのホノルルに住んでいます。</small></span></div>
+<div class="row"><button class="play" data-c="u5_010_e2.mp3">🔊 例文②</button><span class="txt">My brother lives in Honolulu.<small>私の兄はホノルルに住んでいます。</small></span></div>
+</div>
+<div class="card" id="w011">
+<div class="wline"><span class="num">11</span><span class="word">Hawaii</span><span class="mean">ハワイ[地名]</span></div>
+<div class="row"><button class="play word-btn" data-c="u5_011_w.mp3">🔊 単語</button><span class="txt">Hawaii</span></div>
+<div class="row"><button class="play" data-c="u5_011_e1.mp3">🔊 例文①</button><span class="txt">He lives in Honolulu, Hawaii.<small>彼はハワイのホノルルに住んでいます。</small></span></div>
+<div class="row"><button class="play" data-c="u5_011_e2.mp3">🔊 例文②</button><span class="txt">I want to go to Hawaii.<small>私はハワイに行きたいです。</small></span></div>
+</div>
+<div class="card" id="w012">
+<div class="wline"><span class="num">12</span><span class="word">brother</span><span class="mean">兄、弟、兄弟</span></div>
+<div class="row"><button class="play word-btn" data-c="u5_012_w.mp3">🔊 単語</button><span class="txt">brother</span></div>
+<div class="row"><button class="play" data-c="u5_012_e1.mp3">🔊 例文①</button><span class="txt">This is my brother, Fumiya.<small>こちらは私の兄のフミヤです。</small></span></div>
+<div class="row"><button class="play" data-c="u5_012_e2.mp3">🔊 例文②</button><span class="txt">My brother plays soccer.<small>私の兄はサッカーをします。</small></span></div>
+</div>
+<div class="card" id="w013">
+<div class="wline"><span class="num">13</span><span class="word">year(s)</span><span class="mean">…歳、年齢、年</span></div>
+<div class="row"><button class="play word-btn" data-c="u5_013_w.mp3">🔊 単語</button><span class="txt">year(s)</span></div>
+<div class="row"><button class="play" data-c="u5_013_e1.mp3">🔊 例文①</button><span class="txt">He&#x27;s twenty-four years old.<small>彼は24歳です。</small></span></div>
+<div class="row"><button class="play" data-c="u5_013_e2.mp3">🔊 例文②</button><span class="txt">She is thirteen years old.<small>彼女は13歳です。</small></span></div>
+</div>
+<div class="card" id="w014">
+<div class="wline"><span class="num">14</span><span class="word">old</span><span class="mean">…歳の、古い</span></div>
+<div class="row"><button class="play word-btn" data-c="u5_014_w.mp3">🔊 単語</button><span class="txt">old</span></div>
+<div class="row"><button class="play" data-c="u5_014_e1.mp3">🔊 例文①</button><span class="txt">He&#x27;s twenty-four years old.<small>彼は24歳です。</small></span></div>
+<div class="row"><button class="play" data-c="u5_014_e2.mp3">🔊 例文②</button><span class="txt">This temple is very old.<small>このお寺はとても古いです。</small></span></div>
+</div>
+<div class="card" id="w015">
+<div class="wline"><span class="num">15</span><span class="word">work(s)</span><span class="mean">働く、作業をする</span></div>
+<div class="row"><button class="play word-btn" data-c="u5_015_w.mp3">🔊 単語</button><span class="txt">work(s)</span></div>
+<div class="row"><button class="play" data-c="u5_015_e1.mp3">🔊 例文①</button><span class="txt">He works as a tour guide.<small>彼はツアーガイドとして働いています。</small></span></div>
+<div class="row"><button class="play" data-c="u5_015_e2.mp3">🔊 例文②</button><span class="txt">She works in Osaka.<small>彼女は大阪で働いています。</small></span></div>
+</div>
+<div class="card" id="w016">
+<div class="wline"><span class="num">16</span><span class="word">nature</span><span class="mean">自然</span></div>
+<div class="row"><button class="play word-btn" data-c="u5_016_w.mp3">🔊 単語</button><span class="txt">nature</span></div>
+<div class="row"><button class="play" data-c="u5_016_e1.mp3">🔊 例文①</button><span class="txt">He writes a blog about local food, nature, and beautiful spots.<small>彼は地元の食べ物や自然、美しい場所についてのブログを書いています。</small></span></div>
+<div class="row"><button class="play" data-c="u5_016_e2.mp3">🔊 例文②</button><span class="txt">I love nature.<small>私は自然が大好きです。</small></span></div>
+</div>
+<div class="card" id="w017">
+<div class="wline"><span class="num">●</span><span class="word">... year(s) old</span><span class="mean">…歳</span></div>
+<div class="row"><button class="play word-btn" data-c="u5_017_w.mp3">🔊 単語</button><span class="txt">... year(s) old</span></div>
+<div class="row"><button class="play" data-c="u5_017_e1.mp3">🔊 例文①</button><span class="txt">He&#x27;s twenty-four years old.<small>彼は24歳です。</small></span></div>
+<div class="row"><button class="play" data-c="u5_017_e2.mp3">🔊 例文②</button><span class="txt">I&#x27;m thirteen years old.<small>私は13歳です。</small></span></div>
+</div>
+<div class="card" id="w018">
+<div class="wline"><span class="num">●</span><span class="word">enjoy ...ing</span><span class="mean">…して楽しむ</span></div>
+<div class="row"><button class="play word-btn" data-c="u5_018_w.mp3">🔊 単語</button><span class="txt">enjoy ...ing</span></div>
+<div class="row"><button class="play" data-c="u5_018_e1.mp3">🔊 例文①</button><span class="txt">I enjoy reading his blog very much.<small>私は彼のブログを読んでとても楽しんでいます。</small></span></div>
+<div class="row"><button class="play" data-c="u5_018_e2.mp3">🔊 例文②</button><span class="txt">I enjoy playing tennis.<small>私はテニスをして楽しみます。</small></span></div>
+</div>
+<div class="sec">Part 2</div>
+<div class="card" id="w019">
+<div class="wline"><span class="num">1</span><span class="word">any</span><span class="mean">いくらかの、何らかの</span></div>
+<div class="row"><button class="play word-btn" data-c="u5_019_w.mp3">🔊 単語</button><span class="txt">any</span></div>
+<div class="row"><button class="play" data-c="u5_019_e1.mp3">🔊 例文①</button><span class="txt">Do you have any questions?<small>何か質問はありますか。</small></span></div>
+<div class="row"><button class="play" data-c="u5_019_e2.mp3">🔊 例文②</button><span class="txt">Do you have any pens?<small>あなたはペンを何本か持っていますか。</small></span></div>
+</div>
+<div class="card" id="w020">
+<div class="wline"><span class="num">2</span><span class="word">does</span><span class="mean">[疑問文や応答や否定文を作る]</span></div>
+<div class="row"><button class="play word-btn" data-c="u5_020_w.mp3">🔊 単語</button><span class="txt">does</span></div>
+<div class="row"><button class="play" data-c="u5_020_e1.mp3">🔊 例文①</button><span class="txt">Does Fumiya live near a beach?<small>フミヤはビーチの近くに住んでいますか。</small></span></div>
+<div class="row"><button class="play" data-c="u5_020_e2.mp3">🔊 例文②</button><span class="txt">Does she like music?<small>彼女は音楽が好きですか。</small></span></div>
+</div>
+<div class="card" id="w021">
+<div class="wline"><span class="num">3</span><span class="word">has (← have)</span><span class="mean">[haveの三人称単数現在形]</span></div>
+<div class="row"><button class="play word-btn" data-c="u5_021_w.mp3">🔊 単語</button><span class="txt">has (← have)</span></div>
+<div class="row"><button class="play" data-c="u5_021_e1.mp3">🔊 例文①</button><span class="txt">Hawaii has many beautiful beaches.<small>ハワイにはたくさんの美しいビーチがあります。</small></span></div>
+<div class="row"><button class="play" data-c="u5_021_e2.mp3">🔊 例文②</button><span class="txt">She has two dogs.<small>彼女はイヌを2ひき飼っています。</small></span></div>
+</div>
+<div class="card" id="w022">
+<div class="wline"><span class="num">4</span><span class="word">there</span><span class="mean">そこに[で、へ]</span></div>
+<div class="row"><button class="play word-btn" data-c="u5_022_w.mp3">🔊 単語</button><span class="txt">there</span></div>
+<div class="row"><button class="play" data-c="u5_022_e1.mp3">🔊 例文①</button><span class="txt">What does he do there?<small>彼はそこで何をしますか。</small></span></div>
+<div class="row"><button class="play" data-c="u5_022_e2.mp3">🔊 例文②</button><span class="txt">I want to go there.<small>私はそこに行きたいです。</small></span></div>
+</div>
+<div class="card" id="w023">
+<div class="wline"><span class="num">5</span><span class="word">surf(s)</span><span class="mean">サーフィンをする</span></div>
+<div class="row"><button class="play word-btn" data-c="u5_023_w.mp3">🔊 単語</button><span class="txt">surf(s)</span></div>
+<div class="row"><button class="play" data-c="u5_023_e1.mp3">🔊 例文①</button><span class="txt">He swims and surfs with his friends.<small>彼は友達と泳いだりサーフィンをしたりします。</small></span></div>
+<div class="row"><button class="play" data-c="u5_023_e2.mp3">🔊 例文②</button><span class="txt">My brother surfs every weekend.<small>私の兄は毎週末サーフィンをします。</small></span></div>
+</div>
+<div class="card" id="w024">
+<div class="wline"><span class="num">6</span><span class="word">life</span><span class="mean">生活、暮らし</span></div>
+<div class="row"><button class="play word-btn" data-c="u5_024_w.mp3">🔊 単語</button><span class="txt">life</span></div>
+<div class="row"><button class="play" data-c="u5_024_e1.mp3">🔊 例文①</button><span class="txt">He really enjoys life in Hawaii.<small>彼はハワイでの生活を本当に楽しんでいます。</small></span></div>
+<div class="row"><button class="play" data-c="u5_024_e2.mp3">🔊 例文②</button><span class="txt">I enjoy my school life.<small>私は学校生活を楽しんでいます。</small></span></div>
+</div>
+<div class="card" id="w025">
+<div class="wline"><span class="num">7</span><span class="word">question(s)</span><span class="mean">質問、疑問</span></div>
+<div class="row"><button class="play word-btn" data-c="u5_025_w.mp3">🔊 単語</button><span class="txt">question(s)</span></div>
+<div class="row"><button class="play" data-c="u5_025_e1.mp3">🔊 例文①</button><span class="txt">Do you have any questions?<small>何か質問はありますか。</small></span></div>
+<div class="row"><button class="play" data-c="u5_025_e2.mp3">🔊 例文②</button><span class="txt">I have a question.<small>質問があります。</small></span></div>
+</div>
+<div class="card" id="w026">
+<div class="wline"><span class="num">8</span><span class="word">weekend(s)</span><span class="mean">週末</span></div>
+<div class="row"><button class="play word-btn" data-c="u5_026_w.mp3">🔊 単語</button><span class="txt">weekend(s)</span></div>
+<div class="row"><button class="play" data-c="u5_026_e1.mp3">🔊 例文①</button><span class="txt">He usually goes to the beach on weekends.<small>彼はふだん週末にビーチへ行きます。</small></span></div>
+<div class="row"><button class="play" data-c="u5_026_e2.mp3">🔊 例文②</button><span class="txt">What do you do on weekends?<small>あなたは週末に何をしますか。</small></span></div>
+</div>
+<div class="card" id="w027">
+<div class="wline"><span class="num">9</span><span class="word">swim(s)</span><span class="mean">泳ぐ</span></div>
+<div class="row"><button class="play word-btn" data-c="u5_027_w.mp3">🔊 単語</button><span class="txt">swim(s)</span></div>
+<div class="row"><button class="play" data-c="u5_027_e1.mp3">🔊 例文①</button><span class="txt">He swims and surfs with his friends.<small>彼は友達と泳いだりサーフィンをしたりします。</small></span></div>
+<div class="row"><button class="play" data-c="u5_027_e2.mp3">🔊 例文②</button><span class="txt">She swims very well.<small>彼女はとても上手に泳ぎます。</small></span></div>
+</div>
+<div class="card" id="w028">
+<div class="wline"><span class="num">10</span><span class="word">sometimes</span><span class="mean">ときどき</span></div>
+<div class="row"><button class="play word-btn" data-c="u5_028_w.mp3">🔊 単語</button><span class="txt">sometimes</span></div>
+<div class="row"><button class="play" data-c="u5_028_e1.mp3">🔊 例文①</button><span class="txt">Sometimes he swims with dolphins.<small>ときどき彼はイルカと泳ぎます。</small></span></div>
+<div class="row"><button class="play" data-c="u5_028_e2.mp3">🔊 例文②</button><span class="txt">I sometimes play games online.<small>私はときどきオンラインでゲームをします。</small></span></div>
+</div>
+<div class="card" id="w029">
+<div class="wline"><span class="num">11</span><span class="word">dolphin(s)</span><span class="mean">イルカ</span></div>
+<div class="row"><button class="play word-btn" data-c="u5_029_w.mp3">🔊 単語</button><span class="txt">dolphin(s)</span></div>
+<div class="row"><button class="play" data-c="u5_029_e1.mp3">🔊 例文①</button><span class="txt">Sometimes he swims with dolphins.<small>ときどき彼はイルカと泳ぎます。</small></span></div>
+<div class="row"><button class="play" data-c="u5_029_e2.mp3">🔊 例文②</button><span class="txt">I like dolphins very much.<small>私はイルカがとても好きです。</small></span></div>
+</div>
+<div class="card" id="w030">
+<div class="wline"><span class="num">↓</span><span class="word">doesn&#x27;t</span><span class="mean">← does not</span></div>
+<div class="row"><button class="play word-btn" data-c="u5_030_w.mp3">🔊 単語</button><span class="txt">doesn&#x27;t</span></div>
+<div class="row"><button class="play" data-c="u5_030_e1.mp3">🔊 例文①</button><span class="txt">No, he doesn&#x27;t.<small>いいえ、住んでいません。</small></span></div>
+<div class="row"><button class="play" data-c="u5_030_e2.mp3">🔊 例文②</button><span class="txt">He doesn&#x27;t play tennis.<small>彼はテニスをしません。</small></span></div>
+</div>
+<div class="sec">Part 3　Read and Think</div>
+<div class="card" id="w031">
+<div class="wline"><span class="num">1</span><span class="word">cafe</span><span class="mean">喫茶店、カフェ</span></div>
+<div class="row"><button class="play word-btn" data-c="u5_031_w.mp3">🔊 単語</button><span class="txt">cafe</span></div>
+<div class="row"><button class="play" data-c="u5_031_e1.mp3">🔊 例文①</button><span class="txt">Cafe Maria is my favorite restaurant in Honolulu.<small>カフェ・マリアはホノルルで私のいちばん好きなレストランです。</small></span></div>
+<div class="row"><button class="play" data-c="u5_031_e2.mp3">🔊 例文②</button><span class="txt">This cafe is very popular.<small>このカフェはとても人気があります。</small></span></div>
+</div>
+<div class="card" id="w032">
+<div class="wline"><span class="num">2</span><span class="word">website</span><span class="mean">ウェブサイト</span></div>
+<div class="row"><button class="play word-btn" data-c="u5_032_w.mp3">🔊 単語</button><span class="txt">website</span></div>
+<div class="row"><button class="play" data-c="u5_032_e1.mp3">🔊 例文①</button><span class="txt">The restaurant does not have a website.<small>そのレストランにはウェブサイトがありません。</small></span></div>
+<div class="row"><button class="play" data-c="u5_032_e2.mp3">🔊 例文②</button><span class="txt">Our school has a website.<small>私たちの学校にはウェブサイトがあります。</small></span></div>
+</div>
+<div class="card" id="w033">
+<div class="wline"><span class="num">3</span><span class="word">popular</span><span class="mean">人気のある</span></div>
+<div class="row"><button class="play word-btn" data-c="u5_033_w.mp3">🔊 単語</button><span class="txt">popular</span></div>
+<div class="row"><button class="play" data-c="u5_033_e1.mp3">🔊 例文①</button><span class="txt">The restaurant does not have a website, but it is very popular.<small>そのレストランにはウェブサイトがありませんが、とても人気があります。</small></span></div>
+<div class="row"><button class="play" data-c="u5_033_e2.mp3">🔊 例文②</button><span class="txt">Soccer is popular in Japan.<small>サッカーは日本で人気があります。</small></span></div>
+</div>
+<div class="card" id="w034">
+<div class="wline"><span class="num">4</span><span class="word">owner</span><span class="mean">所有者、持ち主</span></div>
+<div class="row"><button class="play word-btn" data-c="u5_034_w.mp3">🔊 単語</button><span class="txt">owner</span></div>
+<div class="row"><button class="play" data-c="u5_034_e1.mp3">🔊 例文①</button><span class="txt">Maria is the owner of the restaurant.<small>マリアはそのレストランの所有者です。</small></span></div>
+<div class="row"><button class="play" data-c="u5_034_e2.mp3">🔊 例文②</button><span class="txt">He is the owner of the cafe.<small>彼はそのカフェのオーナーです。</small></span></div>
+</div>
+<div class="card" id="w035">
+<div class="wline"><span class="num">5</span><span class="word">know(s)</span><span class="mean">（…を）知っている</span></div>
+<div class="row"><button class="play word-btn" data-c="u5_035_w.mp3">🔊 単語</button><span class="txt">know(s)</span></div>
+<div class="row"><button class="play" data-c="u5_035_e1.mp3">🔊 例文①</button><span class="txt">She knows a lot about Japan.<small>彼女は日本についてたくさん知っています。</small></span></div>
+<div class="row"><button class="play" data-c="u5_035_e2.mp3">🔊 例文②</button><span class="txt">She knows my brother.<small>彼女は私の兄を知っています。</small></span></div>
+</div>
+<div class="card" id="w036">
+<div class="wline"><span class="num">6</span><span class="word">patty</span><span class="mean">パティ</span></div>
+<div class="row"><button class="play word-btn" data-c="u5_036_w.mp3">🔊 単語</button><span class="txt">patty</span></div>
+<div class="row"><button class="play" data-c="u5_036_e1.mp3">🔊 例文①</button><span class="txt">It is a beef patty and a fried egg on top of rice.<small>それはごはんの上にビーフパティと目玉焼きをのせたものです。</small></span></div>
+<div class="row"><button class="play" data-c="u5_036_e2.mp3">🔊 例文②</button><span class="txt">The patty is very big.<small>そのパティはとても大きいです。</small></span></div>
+</div>
+<div class="card" id="w037">
+<div class="wline"><span class="num">7</span><span class="word">fried</span><span class="mean">油であげた、油でいためた</span></div>
+<div class="row"><button class="play word-btn" data-c="u5_037_w.mp3">🔊 単語</button><span class="txt">fried</span></div>
+<div class="row"><button class="play" data-c="u5_037_e1.mp3">🔊 例文①</button><span class="txt">It is a beef patty and a fried egg on top of rice.<small>それはごはんの上にビーフパティと目玉焼きをのせたものです。</small></span></div>
+<div class="row"><button class="play" data-c="u5_037_e2.mp3">🔊 例文②</button><span class="txt">I like fried rice.<small>私はチャーハンが好きです。</small></span></div>
+</div>
+<div class="card" id="w038">
+<div class="wline"><span class="num">8</span><span class="word">top</span><span class="mean">表面、上部</span></div>
+<div class="row"><button class="play word-btn" data-c="u5_038_w.mp3">🔊 単語</button><span class="txt">top</span></div>
+<div class="row"><button class="play" data-c="u5_038_e1.mp3">🔊 例文①</button><span class="txt">It is a beef patty and a fried egg on top of rice.<small>それはごはんの上にビーフパティと目玉焼きをのせたものです。</small></span></div>
+<div class="row"><button class="play" data-c="u5_038_e2.mp3">🔊 例文②</button><span class="txt">The cat is on top of the box.<small>そのネコは箱の上にいます。</small></span></div>
+</div>
+<div class="card" id="w039">
+<div class="wline"><span class="num">9</span><span class="word">wonderful</span><span class="mean">すばらしい、すてきな</span></div>
+<div class="row"><button class="play word-btn" data-c="u5_039_w.mp3">🔊 単語</button><span class="txt">wonderful</span></div>
+<div class="row"><button class="play" data-c="u5_039_e1.mp3">🔊 例文①</button><span class="txt">It is wonderful.<small>それはすばらしいです。</small></span></div>
+<div class="row"><button class="play" data-c="u5_039_e2.mp3">🔊 例文②</button><span class="txt">This song is wonderful.<small>この歌はすばらしいです。</small></span></div>
+</div>
+<div class="card" id="w040">
+<div class="wline"><span class="num">10</span><span class="word">Maria</span><span class="mean">マリア[名]</span></div>
+<div class="row"><button class="play word-btn" data-c="u5_040_w.mp3">🔊 単語</button><span class="txt">Maria</span></div>
+<div class="row"><button class="play" data-c="u5_040_e1.mp3">🔊 例文①</button><span class="txt">Maria is the owner of the restaurant.<small>マリアはそのレストランの所有者です。</small></span></div>
+<div class="row"><button class="play" data-c="u5_040_e2.mp3">🔊 例文②</button><span class="txt">Maria is from Hawaii.<small>マリアはハワイ出身です。</small></span></div>
+</div>
+<div class="card" id="w041">
+<div class="wline"><span class="num">11</span><span class="word">loco moco</span><span class="mean">ロコモコ</span></div>
+<div class="row"><button class="play word-btn" data-c="u5_041_w.mp3">🔊 単語</button><span class="txt">loco moco</span></div>
+<div class="row"><button class="play" data-c="u5_041_e1.mp3">🔊 例文①</button><span class="txt">My favorite dish there is loco moco.<small>そこでの私のいちばん好きな料理はロコモコです。</small></span></div>
+<div class="row"><button class="play" data-c="u5_041_e2.mp3">🔊 例文②</button><span class="txt">Loco moco is a popular dish in Hawaii.<small>ロコモコはハワイで人気の料理です。</small></span></div>
+</div>
+<div class="card" id="w042">
+<div class="wline"><span class="num">12</span><span class="word">restaurant</span><span class="mean">レストラン</span></div>
+<div class="row"><button class="play word-btn" data-c="u5_042_w.mp3">🔊 単語</button><span class="txt">restaurant</span></div>
+<div class="row"><button class="play" data-c="u5_042_e1.mp3">🔊 例文①</button><span class="txt">Cafe Maria is my favorite restaurant in Honolulu.<small>カフェ・マリアはホノルルで私のいちばん好きなレストランです。</small></span></div>
+<div class="row"><button class="play" data-c="u5_042_e2.mp3">🔊 例文②</button><span class="txt">The restaurant is near the station.<small>そのレストランは駅の近くにあります。</small></span></div>
+</div>
+<div class="card" id="w043">
+<div class="wline"><span class="num">13</span><span class="word">friendly</span><span class="mean">好意的な、親切な</span></div>
+<div class="row"><button class="play word-btn" data-c="u5_043_w.mp3">🔊 単語</button><span class="txt">friendly</span></div>
+<div class="row"><button class="play" data-c="u5_043_e1.mp3">🔊 例文①</button><span class="txt">She is kind and friendly.<small>彼女はやさしくて親切です。</small></span></div>
+<div class="row"><button class="play" data-c="u5_043_e2.mp3">🔊 例文②</button><span class="txt">Our teachers are kind and friendly.<small>私たちの先生たちはやさしくて親切です。</small></span></div>
+</div>
+<div class="card" id="w044">
+<div class="wline"><span class="num">14</span><span class="word">dish</span><span class="mean">料理、1品</span></div>
+<div class="row"><button class="play word-btn" data-c="u5_044_w.mp3">🔊 単語</button><span class="txt">dish</span></div>
+<div class="row"><button class="play" data-c="u5_044_e1.mp3">🔊 例文①</button><span class="txt">My favorite dish there is loco moco.<small>そこでの私のいちばん好きな料理はロコモコです。</small></span></div>
+<div class="row"><button class="play" data-c="u5_044_e2.mp3">🔊 例文②</button><span class="txt">What is your favorite dish?<small>あなたのいちばん好きな料理は何ですか。</small></span></div>
+</div>
+<div class="card" id="w045">
+<div class="wline"><span class="num">●</span><span class="word">fried egg</span><span class="mean">目玉焼き</span></div>
+<div class="row"><button class="play word-btn" data-c="u5_045_w.mp3">🔊 単語</button><span class="txt">fried egg</span></div>
+<div class="row"><button class="play" data-c="u5_045_e1.mp3">🔊 例文①</button><span class="txt">It is a beef patty and a fried egg on top of rice.<small>それはごはんの上にビーフパティと目玉焼きをのせたものです。</small></span></div>
+<div class="row"><button class="play" data-c="u5_045_e2.mp3">🔊 例文②</button><span class="txt">I make a fried egg every morning.<small>私は毎朝、目玉焼きを作ります。</small></span></div>
+</div>
+<div class="card" id="w046">
+<div class="wline"><span class="num">●</span><span class="word">on top of</span><span class="mean">…の上に</span></div>
+<div class="row"><button class="play word-btn" data-c="u5_046_w.mp3">🔊 単語</button><span class="txt">on top of</span></div>
+<div class="row"><button class="play" data-c="u5_046_e1.mp3">🔊 例文①</button><span class="txt">It is a beef patty and a fried egg on top of rice.<small>それはごはんの上にビーフパティと目玉焼きをのせたものです。</small></span></div>
+<div class="row"><button class="play" data-c="u5_046_e2.mp3">🔊 例文②</button><span class="txt">The cat is on top of the car.<small>そのネコは車の上にいます。</small></span></div>
+</div>
+<footer>Fuki Elementary and Middle School　<span style="opacity:.6">build v4 2026-07-13</span></footer>
+<script>
+const CLIPS = {"u5_001_w.mp3": ["u5_s1.0c294a80.m4a", 0.0, 1.68], "u5_001_e1.mp3": ["u5_s1.0c294a80.m4a", 1.9, 8.92], "u5_001_e2.mp3": ["u5_s1.0c294a80.m4a", 9.14, 15.896], "u5_002_w.mp3": ["u5_s1.0c294a80.m4a", 16.116, 17.928], "u5_002_e1.mp3": ["u5_s1.0c294a80.m4a", 18.148, 25.168], "u5_002_e2.mp3": ["u5_s1.0c294a80.m4a", 25.388, 32.168], "u5_003_w.mp3": ["u5_s1.0c294a80.m4a", 32.388, 34.2], "u5_003_e1.mp3": ["u5_s1.0c294a80.m4a", 34.42, 41.44], "u5_003_e2.mp3": ["u5_s1.0c294a80.m4a", 41.66, 47.336], "u5_004_w.mp3": ["u5_s1.0c294a80.m4a", 47.556, 50.088], "u5_004_e1.mp3": ["u5_s1.0c294a80.m4a", 50.308, 62.488], "u5_004_e2.mp3": ["u5_s1.0c294a80.m4a", 62.708, 69.2], "u5_005_w.mp3": ["u5_s1.0c294a80.m4a", 69.42, 71.376], "u5_005_e1.mp3": ["u5_s1.0c294a80.m4a", 71.596, 83.776], "u5_005_e2.mp3": ["u5_s1.0c294a80.m4a", 83.996, 91.256], "u5_006_w.mp3": ["u5_s1.0c294a80.m4a", 91.476, 93.408], "u5_006_e1.mp3": ["u5_s1.0c294a80.m4a", 93.628, 105.808], "u5_006_e2.mp3": ["u5_s1.0c294a80.m4a", 106.028, 112.64], "u5_007_w.mp3": ["u5_s1.0c294a80.m4a", 112.86, 114.864], "u5_007_e1.mp3": ["u5_s1.0c294a80.m4a", 115.084, 127.264], "u5_007_e2.mp3": ["u5_s1.0c294a80.m4a", 127.484, 133.568], "u5_008_w.mp3": ["u5_s1.0c294a80.m4a", 133.788, 136.464], "u5_008_e1.mp3": ["u5_s1.0c294a80.m4a", 136.684, 148.864], "u5_008_e2.mp3": ["u5_s1.0c294a80.m4a", 149.084, 156.032], "u5_009_w.mp3": ["u5_s1.0c294a80.m4a", 156.252, 158.064], "u5_009_e1.mp3": ["u5_s1.0c294a80.m4a", 158.284, 167.056], "u5_009_e2.mp3": ["u5_s1.0c294a80.m4a", 167.276, 173.792], "u5_010_w.mp3": ["u5_s1.0c294a80.m4a", 174.012, 176.16], "u5_010_e1.mp3": ["u5_s1.0c294a80.m4a", 176.38, 183.592], "u5_010_e2.mp3": ["u5_s1.0c294a80.m4a", 183.812, 191.048], "u5_011_w.mp3": ["u5_s1.0c294a80.m4a", 191.268, 193.296], "u5_011_e1.mp3": ["u5_s1.0c294a80.m4a", 193.516, 200.728], "u5_011_e2.mp3": ["u5_s1.0c294a80.m4a", 200.948, 207.272], "u5_012_w.mp3": ["u5_s1.0c294a80.m4a", 207.492, 209.448], "u5_012_e1.mp3": ["u5_s1.0c294a80.m4a", 209.668, 216.808], "u5_012_e2.mp3": ["u5_s1.0c294a80.m4a", 217.028, 223.448], "u5_013_w.mp3": ["u5_s1.0c294a80.m4a", 223.668, 226.224], "u5_013_e1.mp3": ["u5_s1.0c294a80.m4a", 226.444, 232.624], "u5_013_e2.mp3": ["u5_s1.0c294a80.m4a", 232.844, 239.144], "u5_014_w.mp3": ["u5_s1.0c294a80.m4a", 239.364, 241.104], "u5_014_e1.mp3": ["u5_s1.0c294a80.m4a", 241.324, 247.504], "u5_014_e2.mp3": ["u5_s1.0c294a80.m4a", 247.724, 254.168], "u5_015_w.mp3": ["u5_s1.0c294a80.m4a", 254.388, 256.944], "u5_015_e1.mp3": ["u5_s1.0c294a80.m4a", 257.164, 264.184], "u5_015_e2.mp3": ["u5_s1.0c294a80.m4a", 264.404, 270.992], "u5_016_w.mp3": ["u5_s1.0c294a80.m4a", 271.212, 273.168], "u5_016_e1.mp3": ["u5_s1.0c294a80.m4a", 273.388, 285.568], "u5_016_e2.mp3": ["u5_s1.0c294a80.m4a", 285.788, 291.704], "u5_017_w.mp3": ["u5_s1.0c294a80.m4a", 291.924, 294.024], "u5_017_e1.mp3": ["u5_s1.0c294a80.m4a", 294.244, 300.424], "u5_017_e2.mp3": ["u5_s1.0c294a80.m4a", 300.644, 306.752], "u5_018_w.mp3": ["u5_s1.0c294a80.m4a", 306.972, 308.952], "u5_018_e1.mp3": ["u5_s1.0c294a80.m4a", 309.172, 317.944], "u5_018_e2.mp3": ["u5_s1.0c294a80.m4a", 318.164, 324.944], "u5_019_w.mp3": ["u5_s2.5de7cc24.m4a", 0.0, 1.704], "u5_019_e1.mp3": ["u5_s2.5de7cc24.m4a", 1.924, 8.08], "u5_019_e2.mp3": ["u5_s2.5de7cc24.m4a", 8.3, 15.032], "u5_020_w.mp3": ["u5_s2.5de7cc24.m4a", 15.252, 17.112], "u5_020_e1.mp3": ["u5_s2.5de7cc24.m4a", 17.332, 24.568], "u5_020_e2.mp3": ["u5_s2.5de7cc24.m4a", 24.788, 30.992], "u5_021_w.mp3": ["u5_s2.5de7cc24.m4a", 31.212, 33.072], "u5_021_e1.mp3": ["u5_s2.5de7cc24.m4a", 33.292, 41.368], "u5_021_e2.mp3": ["u5_s2.5de7cc24.m4a", 41.588, 48.104], "u5_022_w.mp3": ["u5_s2.5de7cc24.m4a", 48.324, 50.112], "u5_022_e1.mp3": ["u5_s2.5de7cc24.m4a", 50.332, 56.272], "u5_022_e2.mp3": ["u5_s2.5de7cc24.m4a", 56.492, 62.336], "u5_023_w.mp3": ["u5_s2.5de7cc24.m4a", 62.556, 65.112], "u5_023_e1.mp3": ["u5_s2.5de7cc24.m4a", 65.332, 73.6], "u5_023_e2.mp3": ["u5_s2.5de7cc24.m4a", 73.82, 81.632], "u5_024_w.mp3": ["u5_s2.5de7cc24.m4a", 81.852, 83.784], "u5_024_e1.mp3": ["u5_s2.5de7cc24.m4a", 84.004, 92.416], "u5_024_e2.mp3": ["u5_s2.5de7cc24.m4a", 92.636, 99.968], "u5_025_w.mp3": ["u5_s2.5de7cc24.m4a", 100.188, 103.176], "u5_025_e1.mp3": ["u5_s2.5de7cc24.m4a", 103.396, 109.552], "u5_025_e2.mp3": ["u5_s2.5de7cc24.m4a", 109.772, 115.016], "u5_026_w.mp3": ["u5_s2.5de7cc24.m4a", 115.236, 118.056], "u5_026_e1.mp3": ["u5_s2.5de7cc24.m4a", 118.276, 126.208], "u5_026_e2.mp3": ["u5_s2.5de7cc24.m4a", 126.428, 133.112], "u5_027_w.mp3": ["u5_s2.5de7cc24.m4a", 133.332, 135.96], "u5_027_e1.mp3": ["u5_s2.5de7cc24.m4a", 136.18, 144.448], "u5_027_e2.mp3": ["u5_s2.5de7cc24.m4a", 144.668, 151.352], "u5_028_w.mp3": ["u5_s2.5de7cc24.m4a", 151.572, 153.768], "u5_028_e1.mp3": ["u5_s2.5de7cc24.m4a", 153.988, 161.152], "u5_028_e2.mp3": ["u5_s2.5de7cc24.m4a", 161.372, 168.968], "u5_029_w.mp3": ["u5_s2.5de7cc24.m4a", 169.188, 172.056], "u5_029_e1.mp3": ["u5_s2.5de7cc24.m4a", 172.276, 179.44], "u5_029_e2.mp3": ["u5_s2.5de7cc24.m4a", 179.66, 186.608], "u5_030_w.mp3": ["u5_s2.5de7cc24.m4a", 186.828, 188.784], "u5_030_e1.mp3": ["u5_s2.5de7cc24.m4a", 189.004, 195.016], "u5_030_e2.mp3": ["u5_s2.5de7cc24.m4a", 195.236, 201.2], "u5_031_w.mp3": ["u5_s3.f43b4514.m4a", 0.0, 1.8], "u5_031_e1.mp3": ["u5_s3.f43b4514.m4a", 2.02, 12.208], "u5_031_e2.mp3": ["u5_s3.f43b4514.m4a", 12.428, 19.64], "u5_032_w.mp3": ["u5_s3.f43b4514.m4a", 19.86, 21.936], "u5_032_e1.mp3": ["u5_s3.f43b4514.m4a", 22.156, 30.088], "u5_032_e2.mp3": ["u5_s3.f43b4514.m4a", 30.308, 37.784], "u5_033_w.mp3": ["u5_s3.f43b4514.m4a", 38.004, 40.008], "u5_033_e1.mp3": ["u5_s3.f43b4514.m4a", 40.228, 51.664], "u5_033_e2.mp3": ["u5_s3.f43b4514.m4a", 51.884, 58.928], "u5_034_w.mp3": ["u5_s3.f43b4514.m4a", 59.148, 60.936], "u5_034_e1.mp3": ["u5_s3.f43b4514.m4a", 61.156, 68.728], "u5_034_e2.mp3": ["u5_s3.f43b4514.m4a", 68.948, 75.608], "u5_035_w.mp3": ["u5_s3.f43b4514.m4a", 75.828, 78.288], "u5_035_e1.mp3": ["u5_s3.f43b4514.m4a", 78.508, 86.032], "u5_035_e2.mp3": ["u5_s3.f43b4514.m4a", 86.252, 92.744], "u5_036_w.mp3": ["u5_s3.f43b4514.m4a", 92.964, 94.824], "u5_036_e1.mp3": ["u5_s3.f43b4514.m4a", 95.044, 105.16], "u5_036_e2.mp3": ["u5_s3.f43b4514.m4a", 105.38, 111.848], "u5_037_w.mp3": ["u5_s3.f43b4514.m4a", 112.068, 114.0], "u5_037_e1.mp3": ["u5_s3.f43b4514.m4a", 114.22, 124.336], "u5_037_e2.mp3": ["u5_s3.f43b4514.m4a", 124.556, 130.712], "u5_038_w.mp3": ["u5_s3.f43b4514.m4a", 130.932, 132.648], "u5_038_e1.mp3": ["u5_s3.f43b4514.m4a", 132.868, 142.984], "u5_038_e2.mp3": ["u5_s3.f43b4514.m4a", 143.204, 150.224], "u5_039_w.mp3": ["u5_s3.f43b4514.m4a", 150.444, 152.544], "u5_039_e1.mp3": ["u5_s3.f43b4514.m4a", 152.764, 158.248], "u5_039_e2.mp3": ["u5_s3.f43b4514.m4a", 158.468, 164.528], "u5_040_w.mp3": ["u5_s3.f43b4514.m4a", 164.748, 166.68], "u5_040_e1.mp3": ["u5_s3.f43b4514.m4a", 166.9, 174.472], "u5_040_e2.mp3": ["u5_s3.f43b4514.m4a", 174.692, 181.04], "u5_041_w.mp3": ["u5_s3.f43b4514.m4a", 181.26, 183.528], "u5_041_e1.mp3": ["u5_s3.f43b4514.m4a", 183.748, 192.16], "u5_041_e2.mp3": ["u5_s3.f43b4514.m4a", 192.38, 200.504], "u5_042_w.mp3": ["u5_s3.f43b4514.m4a", 200.724, 202.776], "u5_042_e1.mp3": ["u5_s3.f43b4514.m4a", 202.996, 213.184], "u5_042_e2.mp3": ["u5_s3.f43b4514.m4a", 213.404, 221.072], "u5_043_w.mp3": ["u5_s3.f43b4514.m4a", 221.292, 223.32], "u5_043_e1.mp3": ["u5_s3.f43b4514.m4a", 223.54, 230.104], "u5_043_e2.mp3": ["u5_s3.f43b4514.m4a", 230.324, 238.568], "u5_044_w.mp3": ["u5_s3.f43b4514.m4a", 238.788, 240.744], "u5_044_e1.mp3": ["u5_s3.f43b4514.m4a", 240.964, 249.376], "u5_044_e2.mp3": ["u5_s3.f43b4514.m4a", 249.596, 256.448], "u5_045_w.mp3": ["u5_s3.f43b4514.m4a", 256.668, 258.744], "u5_045_e1.mp3": ["u5_s3.f43b4514.m4a", 258.964, 269.08], "u5_045_e2.mp3": ["u5_s3.f43b4514.m4a", 269.3, 277.016], "u5_046_w.mp3": ["u5_s3.f43b4514.m4a", 277.236, 279.384], "u5_046_e1.mp3": ["u5_s3.f43b4514.m4a", 279.604, 289.72], "u5_046_e2.mp3": ["u5_s3.f43b4514.m4a", 289.94, 296.888]};  // clipId -> [file, start, end]
+
+let ctx = null;
+const buffers = {};   // file -> AudioBuffer
+const fetching = {};  // file -> Promise
+let srcNode = null;     // 再生中のソース
+let token = 0;          // 最後に押されたボタンの識別子
+let activeBtn = null;
+
+function resetBtn() {
+  if (activeBtn) {
+    activeBtn.classList.remove('loading', 'playing');
+    activeBtn.textContent = activeBtn.dataset.label;
+    activeBtn = null;
+  }
+}
+
+function stopCurrent() {
+  if (srcNode) {
+    try { srcNode.onended = null; srcNode.stop(); } catch (e) {}
+    srcNode = null;
+  }
+  resetBtn();
+}
+
+function loadBuffer(file) {
+  if (buffers[file]) return Promise.resolve(buffers[file]);
+  if (!fetching[file]) {
+    fetching[file] = fetch(file)
+      .then(r => { if (!r.ok) throw new Error(r.status); return r.arrayBuffer(); })
+      .then(ab => new Promise((res, rej) => ctx.decodeAudioData(ab, res, rej)))
+      .then(buf => { buffers[file] = buf; return buf; })
+      .catch(err => { delete fetching[file]; throw err; });
+  }
+  return fetching[file];
+}
+
+function playClip(btn) {
+  const info = CLIPS[btn.dataset.c];
+  if (!info) { alert('音声データが見つかりません'); return; }
+  const [file, start, end] = info;
+
+  if (!ctx) ctx = new (window.AudioContext || window.webkitAudioContext)();
+  if (ctx.state === 'suspended') ctx.resume();
+
+  stopCurrent();
+  const myToken = ++token;
+  activeBtn = btn;
+  btn.dataset.label = btn.dataset.label || btn.textContent;
+
+  const buf = buffers[file];
+  const startPlayback = (buffer) => {
+    if (myToken !== token) return;  // その間に別ボタンが押された
+    btn.classList.remove('loading');
+    btn.textContent = btn.dataset.label;
+    btn.classList.add('playing');
+    const s = ctx.createBufferSource();
+    s.buffer = buffer;
+    s.connect(ctx.destination);
+    s.onended = () => { if (myToken === token) { srcNode = null; resetBtn(); } };
+    srcNode = s;
+    s.start(0, start, end - start);
+  };
+
+  if (buf) {
+    startPlayback(buf);
+  } else {
+    btn.classList.add('loading');
+    btn.textContent = '読込中…';
+    loadBuffer(file).then(startPlayback).catch(() => {
+      if (myToken === token) {
+        resetBtn();
+        alert('音声の読み込みに失敗しました。電波の良いところでもう一度試してください。');
+      }
+    });
+  }
+}
+
+document.querySelectorAll('button.play').forEach(b => {
+  b.dataset.label = b.textContent;
+  b.addEventListener('click', () => playClip(b));
+});
+
+function jump() {
+  const id = location.hash.slice(1);
+  if (!id) return;
+  const el = document.getElementById(id);
+  if (el) {
+    document.querySelectorAll('.card.hit').forEach(c => c.classList.remove('hit'));
+    el.classList.add('hit');
+    el.scrollIntoView({behavior:'smooth', block:'center'});
+  }
+}
+window.addEventListener('hashchange', jump);
+window.addEventListener('load', jump);
+</script>
+</body>
+</html>
