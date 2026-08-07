@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unit 7　単語音声プレーヤー</title>
+<style>
+:root { --teal:#1B5757; --amber:#E8A33D; --cream:#FFF7E6; }
+* { box-sizing:border-box; margin:0; padding:0; }
+body { font-family:"UD デジタル 教科書体 NK-R","Hiragino Sans","Yu Gothic",sans-serif;
+       background:#f5f2ea; color:#222; padding-bottom:60px; }
+header { background:var(--teal); color:#fff; padding:14px 16px; position:sticky; top:0; z-index:5; }
+header h1 { font-size:1.05rem; font-weight:700; }
+header p { font-size:.75rem; opacity:.85; margin-top:2px; }
+.sec { background:var(--amber); color:#fff; font-weight:700; font-size:.9rem;
+       padding:6px 14px; margin-top:14px; }
+.card { background:#fff; margin:8px 10px; border-radius:10px; padding:10px 12px;
+        border:1px solid #e0dccc; scroll-margin-top:70px; }
+.card.hit { border:2px solid var(--amber); background:var(--cream);
+            animation:flash 1.2s ease 2; }
+@keyframes flash { 50% { background:#ffe9c2; } }
+.wline { display:flex; align-items:baseline; gap:8px; flex-wrap:wrap; }
+.num { color:var(--amber); font-weight:700; font-size:.8rem; min-width:1.4em; }
+.word { color:var(--teal); font-weight:700; font-size:1.25rem; }
+.mean { font-size:.85rem; color:#555; }
+.row { display:flex; align-items:center; gap:8px; margin-top:7px; }
+.row .txt { font-size:.9rem; font-style:italic; color:#333; flex:1; }
+.row .txt small { display:block; font-style:normal; color:#888; font-size:.75rem; }
+button.play { flex-shrink:0; background:var(--teal); color:#fff; border:none;
+       border-radius:18px; padding:7px 12px; font-size:.85rem; font-weight:700;
+       display:flex; align-items:center; gap:4px; cursor:pointer; min-width:92px;
+       justify-content:center; }
+button.play:active { background:var(--amber); }
+button.play.word-btn { background:var(--amber); }
+button.play.loading { opacity:.6; }
+button.play.playing { outline:3px solid var(--amber); }
+footer { text-align:center; font-size:.7rem; color:#888; padding:20px; }
+</style>
+</head>
+<body>
+<header>
+<h1>New Horizon　Unit 7　単語音声</h1>
+<p>ボタンをおすと音声が流れます 🔊　例文は英語のあとに日本語訳が流れます</p>
+</header>
+<div class="sec">Unit 7　An Online Tour of the U.K. ／ Part 1</div>
+<div class="card" id="w001">
+<div class="wline"><span class="num">1</span><span class="word">tomorrow</span><span class="mean">明日</span></div>
+<div class="row"><button class="play word-btn" data-c="u7_001_w.mp3">🔊 単語</button><span class="txt">tomorrow</span></div>
+<div class="row"><button class="play" data-c="u7_001_e1.mp3">🔊 例文①</button><span class="txt">I'm thinking about tomorrow.<small>私は明日のことを考えています。</small></span></div>
+<div class="row"><button class="play" data-c="u7_001_e2.mp3">🔊 例文②</button><span class="txt">My sister is making a cake for tomorrow.<small>私の姉は明日のためにケーキを作っています。</small></span></div>
+</div>
+<div class="card" id="w002">
+<div class="wline"><span class="num">2</span><span class="word">plan(s)</span><span class="mean">計画、予定</span></div>
+<div class="row"><button class="play word-btn" data-c="u7_002_w.mp3">🔊 単語</button><span class="txt">plan(s)</span></div>
+<div class="row"><button class="play" data-c="u7_002_e1.mp3">🔊 例文①</button><span class="txt">Do you have any plans?<small>あなたは何か予定がありますか。</small></span></div>
+<div class="row"><button class="play" data-c="u7_002_e2.mp3">🔊 例文②</button><span class="txt">We are making plans for the trip.<small>私たちは旅行の計画を立てています。</small></span></div>
+</div>
+<div class="card" id="w003">
+<div class="wline"><span class="num">3</span><span class="word">free</span><span class="mean">ひまな</span></div>
+<div class="row"><button class="play word-btn" data-c="u7_003_w.mp3">🔊 単語</button><span class="txt">free</span></div>
+<div class="row"><button class="play" data-c="u7_003_e1.mp3">🔊 例文①</button><span class="txt">No, I'm free.<small>いいえ、私はひまです。</small></span></div>
+<div class="row"><button class="play" data-c="u7_003_e2.mp3">🔊 例文②</button><span class="txt">Ken is free this afternoon.<small>ケンは今日の午後ひまです。</small></span></div>
+</div>
+<div class="card" id="w004">
+<div class="wline"><span class="num">4</span><span class="word">mean</span><span class="mean">…を意味する、…のことを言う</span></div>
+<div class="row"><button class="play word-btn" data-c="u7_004_w.mp3">🔊 単語</button><span class="txt">mean</span></div>
+<div class="row"><button class="play" data-c="u7_004_e1.mp3">🔊 例文①</button><span class="txt">What do you mean?<small>どういう意味ですか。</small></span></div>
+<div class="row"><button class="play" data-c="u7_004_e2.mp3">🔊 例文②</button><span class="txt">What does this word mean?<small>この単語はどういう意味ですか。</small></span></div>
+</div>
+<div class="card" id="w005">
+<div class="wline"><span class="num">5</span><span class="word">forward</span><span class="mean">[look forward toで]…を楽しみに待つ</span></div>
+<div class="row"><button class="play word-btn" data-c="u7_005_w.mp3">🔊 単語</button><span class="txt">forward</span></div>
+<div class="row"><button class="play" data-c="u7_005_e1.mp3">🔊 例文①</button><span class="txt">I'm looking forward to it.<small>私はそれを楽しみに待っています。</small></span></div>
+<div class="row"><button class="play" data-c="u7_005_e2.mp3">🔊 例文②</button><span class="txt">Emi is looking forward to the party.<small>エミはパーティーを楽しみに待っています。</small></span></div>
+</div>
+<div class="card" id="w006">
+<div class="wline"><span class="num">6</span><span class="word">busy</span><span class="mean">忙しい</span></div>
+<div class="row"><button class="play word-btn" data-c="u7_006_w.mp3">🔊 単語</button><span class="txt">busy</span></div>
+<div class="row"><button class="play" data-c="u7_006_e1.mp3">🔊 例文①</button><span class="txt">Are you busy now?<small>あなたは今忙しいですか。</small></span></div>
+<div class="row"><button class="play" data-c="u7_006_e2.mp3">🔊 例文②</button><span class="txt">My mother is busy every morning.<small>私の母は毎朝忙しいです。</small></span></div>
+</div>
+<div class="card" id="w007">
+<div class="wline"><span class="num">7</span><span class="word">talk</span><span class="mean">話す、しゃべる</span></div>
+<div class="row"><button class="play word-btn" data-c="u7_007_w.mp3">🔊 単語</button><span class="txt">talk</span></div>
+<div class="row"><button class="play" data-c="u7_007_e1.mp3">🔊 例文①</button><span class="txt">I'm watching TV, but I can talk.<small>私はテレビを見ていますが、話せます。</small></span></div>
+<div class="row"><button class="play" data-c="u7_007_e2.mp3">🔊 例文②</button><span class="txt">Ken is talking with his friends.<small>ケンは友達と話しています。</small></span></div>
+</div>
+<div class="card" id="w008">
+<div class="wline"><span class="num">8</span><span class="word">up</span><span class="mean">[What's up?で]どうしたのですか。</span></div>
+<div class="row"><button class="play word-btn" data-c="u7_008_w.mp3">🔊 単語</button><span class="txt">up</span></div>
+<div class="row"><button class="play" data-c="u7_008_e1.mp3">🔊 例文①</button><span class="txt">What's up?<small>どうしたのですか。</small></span></div>
+<div class="row"><button class="play" data-c="u7_008_e2.mp3">🔊 例文②</button><span class="txt">Hi, Emi. What's up?<small>やあ、エミ。どうしたのですか。</small></span></div>
+</div>
+<div class="card" id="w009">
+<div class="wline"><span class="num">●</span><span class="word">What's up?</span><span class="mean">どうしたのですか。</span></div>
+<div class="row"><button class="play word-btn" data-c="u7_009_w.mp3">🔊 単語</button><span class="txt">What's up?</span></div>
+<div class="row"><button class="play" data-c="u7_009_e1.mp3">🔊 例文①</button><span class="txt">What's up?<small>どうしたのですか。</small></span></div>
+<div class="row"><button class="play" data-c="u7_009_e2.mp3">🔊 例文②</button><span class="txt">What's up, Ken?<small>どうしたのですか、ケン。</small></span></div>
+</div>
+<div class="card" id="w010">
+<div class="wline"><span class="num">●</span><span class="word">sound like</span><span class="mean">…のように聞こえる、思える</span></div>
+<div class="row"><button class="play word-btn" data-c="u7_010_w.mp3">🔊 単語</button><span class="txt">sound like</span></div>
+<div class="row"><button class="play" data-c="u7_010_e1.mp3">🔊 例文①</button><span class="txt">Wow, sounds like fun.<small>わあ、楽しそうです。</small></span></div>
+<div class="row"><button class="play" data-c="u7_010_e2.mp3">🔊 例文②</button><span class="txt">Your plan sounds like fun.<small>あなたの計画は楽しそうです。</small></span></div>
+</div>
+<div class="card" id="w011">
+<div class="wline"><span class="num">●</span><span class="word">look forward to</span><span class="mean">…を楽しみに待つ</span></div>
+<div class="row"><button class="play word-btn" data-c="u7_011_w.mp3">🔊 単語</button><span class="txt">look forward to</span></div>
+<div class="row"><button class="play" data-c="u7_011_e1.mp3">🔊 例文①</button><span class="txt">I'm looking forward to it.<small>私はそれを楽しみに待っています。</small></span></div>
+<div class="row"><button class="play" data-c="u7_011_e2.mp3">🔊 例文②</button><span class="txt">Ken is looking forward to the trip.<small>ケンは旅行を楽しみに待っています。</small></span></div>
+</div>
+<div class="sec">Part 2</div>
+<div class="card" id="w012">
+<div class="wline"><span class="num">1</span><span class="word">market</span><span class="mean">市場</span></div>
+<div class="row"><button class="play word-btn" data-c="u7_012_w.mp3">🔊 単語</button><span class="txt">market</span></div>
+<div class="row"><button class="play" data-c="u7_012_e1.mp3">🔊 例文①</button><span class="txt">I'm at a market in London now.<small>私は今ロンドンの市場にいます。</small></span></div>
+<div class="row"><button class="play" data-c="u7_012_e2.mp3">🔊 例文②</button><span class="txt">Are you shopping at the market?<small>あなたは市場で買い物をしていますか。</small></span></div>
+</div>
+<div class="card" id="w013">
+<div class="wline"><span class="num">2</span><span class="word">souvenir(s)</span><span class="mean">記念品、みやげ</span></div>
+<div class="row"><button class="play word-btn" data-c="u7_013_w.mp3">🔊 単語</button><span class="txt">souvenir(s)</span></div>
+<div class="row"><button class="play" data-c="u7_013_e1.mp3">🔊 例文①</button><span class="txt">You can buy food and souvenirs here.<small>あなたはここで食べ物とみやげを買うことができます。</small></span></div>
+<div class="row"><button class="play" data-c="u7_013_e2.mp3">🔊 例文②</button><span class="txt">Is Emi looking for a souvenir?<small>エミはみやげをさがしていますか。</small></span></div>
+</div>
+<div class="card" id="w014">
+<div class="wline"><span class="num">3</span><span class="word">place</span><span class="mean">場所、ところ</span></div>
+<div class="row"><button class="play word-btn" data-c="u7_014_w.mp3">🔊 単語</button><span class="txt">place</span></div>
+<div class="row"><button class="play" data-c="u7_014_e1.mp3">🔊 例文①</button><span class="txt">This place is the home of Peter Rabbit.<small>この場所は「ピーターラビット」のふるさとです。</small></span></div>
+<div class="row"><button class="play" data-c="u7_014_e2.mp3">🔊 例文②</button><span class="txt">Are you taking pictures of this place?<small>あなたはこの場所の写真をとっていますか。</small></span></div>
+</div>
+<div class="card" id="w015">
+<div class="wline"><span class="num">4</span><span class="word">appear(s)</span><span class="mean">現れる、姿を現す</span></div>
+<div class="row"><button class="play word-btn" data-c="u7_015_w.mp3">🔊 単語</button><span class="txt">appear(s)</span></div>
+<div class="row"><button class="play" data-c="u7_015_e1.mp3">🔊 例文①</button><span class="txt">Also, this place appears in the Harry Potter movies.<small>また、この場所は「ハリー・ポッター」の映画に出てきます。</small></span></div>
+<div class="row"><button class="play" data-c="u7_015_e2.mp3">🔊 例文②</button><span class="txt">Does Kate appear in this movie?<small>ケイトはこの映画に出てきますか。</small></span></div>
+</div>
+<div class="card" id="w016">
+<div class="wline"><span class="num">5</span><span class="word">those</span><span class="mean">あれらの、それらの</span></div>
+<div class="row"><button class="play word-btn" data-c="u7_016_w.mp3">🔊 単語</button><span class="txt">those</span></div>
+<div class="row"><button class="play" data-c="u7_016_e1.mp3">🔊 例文①</button><span class="txt">What are those people doing?<small>あれらの人々は何をしていますか。</small></span></div>
+<div class="row"><button class="play" data-c="u7_016_e2.mp3">🔊 例文②</button><span class="txt">Are you looking at those pictures?<small>あなたはあれらの写真を見ていますか。</small></span></div>
+</div>
+<div class="card" id="w017">
+<div class="wline"><span class="num">6</span><span class="word">Kate</span><span class="mean">ケイト[名]</span></div>
+<div class="row"><button class="play word-btn" data-c="u7_017_w.mp3">🔊 単語</button><span class="txt">Kate</span></div>
+<div class="row"><button class="play" data-c="u7_017_e1.mp3">🔊 例文①</button><span class="txt">I'm Kate.<small>私はケイトです。</small></span></div>
+<div class="row"><button class="play" data-c="u7_017_e2.mp3">🔊 例文②</button><span class="txt">Is Kate waiting for us?<small>ケイトは私たちを待っていますか。</small></span></div>
+</div>
+<div class="card" id="w018">
+<div class="wline"><span class="num">7</span><span class="word">London</span><span class="mean">ロンドン[地名]</span></div>
+<div class="row"><button class="play word-btn" data-c="u7_018_w.mp3">🔊 単語</button><span class="txt">London</span></div>
+<div class="row"><button class="play" data-c="u7_018_e1.mp3">🔊 例文①</button><span class="txt">I'm at a market in London now.<small>私は今ロンドンの市場にいます。</small></span></div>
+<div class="row"><button class="play" data-c="u7_018_e2.mp3">🔊 例文②</button><span class="txt">Is Emi visiting London now?<small>エミは今ロンドンを訪れていますか。</small></span></div>
+</div>
+<div class="card" id="w019">
+<div class="wline"><span class="num">8</span><span class="word">Harry Potter</span><span class="mean">「ハリー・ポッター」</span></div>
+<div class="row"><button class="play word-btn" data-c="u7_019_w.mp3">🔊 単語</button><span class="txt">Harry Potter</span></div>
+<div class="row"><button class="play" data-c="u7_019_e1.mp3">🔊 例文①</button><span class="txt">Also, this place appears in the Harry Potter movies.<small>また、この場所は「ハリー・ポッター」の映画に出てきます。</small></span></div>
+<div class="row"><button class="play" data-c="u7_019_e2.mp3">🔊 例文②</button><span class="txt">Are you reading Harry Potter now?<small>あなたは今「ハリー・ポッター」を読んでいますか。</small></span></div>
+</div>
+<div class="card" id="w020">
+<div class="wline"><span class="num">9</span><span class="word">John</span><span class="mean">ジョン[名]</span></div>
+<div class="row"><button class="play word-btn" data-c="u7_020_w.mp3">🔊 単語</button><span class="txt">John</span></div>
+<div class="row"><button class="play" data-c="u7_020_e1.mp3">🔊 例文①</button><span class="txt">Hi, I'm John.<small>こんにちは、私はジョンです。</small></span></div>
+<div class="row"><button class="play" data-c="u7_020_e2.mp3">🔊 例文②</button><span class="txt">Is John taking pictures now?<small>ジョンは今写真をとっていますか。</small></span></div>
+</div>
+<div class="card" id="w021">
+<div class="wline"><span class="num">10</span><span class="word">the Lake District</span><span class="mean">湖水地方</span></div>
+<div class="row"><button class="play word-btn" data-c="u7_021_w.mp3">🔊 単語</button><span class="txt">the Lake District</span></div>
+<div class="row"><button class="play" data-c="u7_021_e1.mp3">🔊 例文①</button><span class="txt">I'm in the Lake District.<small>私は湖水地方にいます。</small></span></div>
+<div class="row"><button class="play" data-c="u7_021_e2.mp3">🔊 例文②</button><span class="txt">Are you staying in the Lake District?<small>あなたは湖水地方に滞在していますか。</small></span></div>
+</div>
+<div class="card" id="w022">
+<div class="wline"><span class="num">11</span><span class="word">Peter Rabbit</span><span class="mean">「ピーターラビット」</span></div>
+<div class="row"><button class="play word-btn" data-c="u7_022_w.mp3">🔊 単語</button><span class="txt">Peter Rabbit</span></div>
+<div class="row"><button class="play" data-c="u7_022_e1.mp3">🔊 例文①</button><span class="txt">Wow, I love Peter Rabbit!<small>わあ、私は「ピーターラビット」が大好きです。</small></span></div>
+<div class="row"><button class="play" data-c="u7_022_e2.mp3">🔊 例文②</button><span class="txt">Is your sister reading Peter Rabbit?<small>あなたの妹は「ピーターラビット」を読んでいますか。</small></span></div>
+</div>
+<div class="card" id="w023">
+<div class="wline"><span class="num">12</span><span class="word">buy</span><span class="mean">…を買う</span></div>
+<div class="row"><button class="play word-btn" data-c="u7_023_w.mp3">🔊 単語</button><span class="txt">buy</span></div>
+<div class="row"><button class="play" data-c="u7_023_e1.mp3">🔊 例文①</button><span class="txt">You can buy food and souvenirs here.<small>あなたはここで食べ物とみやげを買うことができます。</small></span></div>
+<div class="row"><button class="play" data-c="u7_023_e2.mp3">🔊 例文②</button><span class="txt">Emi is buying a present for her mother.<small>エミはお母さんへのプレゼントを買っています。</small></span></div>
+</div>
+<div class="card" id="w024">
+<div class="wline"><span class="num">13</span><span class="word">people</span><span class="mean">人々</span></div>
+<div class="row"><button class="play word-btn" data-c="u7_024_w.mp3">🔊 単語</button><span class="txt">people</span></div>
+<div class="row"><button class="play" data-c="u7_024_e1.mp3">🔊 例文①</button><span class="txt">What are those people doing?<small>あれらの人々は何をしていますか。</small></span></div>
+<div class="row"><button class="play" data-c="u7_024_e2.mp3">🔊 例文②</button><span class="txt">Kate is talking to many people.<small>ケイトは多くの人々と話しています。</small></span></div>
+</div>
+<div class="card" id="w025">
+<div class="wline"><span class="num">●</span><span class="word">Welcome to ....</span><span class="mean">…へようこそ。</span></div>
+<div class="row"><button class="play word-btn" data-c="u7_025_w.mp3">🔊 単語</button><span class="txt">Welcome to ....</span></div>
+<div class="row"><button class="play" data-c="u7_025_e1.mp3">🔊 例文①</button><span class="txt">Welcome to our online tour.<small>私たちのオンラインツアーへようこそ。</small></span></div>
+<div class="row"><button class="play" data-c="u7_025_e2.mp3">🔊 例文②</button><span class="txt">Welcome to Japan.<small>日本へようこそ。</small></span></div>
+</div>
+<div class="sec">Read and Think</div>
+<div class="card" id="w026">
+<div class="wline"><span class="num">1</span><span class="word">mom</span><span class="mean">お母さん</span></div>
+<div class="row"><button class="play word-btn" data-c="u7_026_w.mp3">🔊 単語</button><span class="txt">mom</span></div>
+<div class="row"><button class="play" data-c="u7_026_e1.mp3">🔊 例文①</button><span class="txt">OK, Mom. Thanks!<small>はい、お母さん。ありがとう。</small></span></div>
+<div class="row"><button class="play" data-c="u7_026_e2.mp3">🔊 例文②</button><span class="txt">My mom is cooking dinner now.<small>私の母は今夕食を作っています。</small></span></div>
+</div>
+<div class="card" id="w027">
+<div class="wline"><span class="num">2</span><span class="word">dad</span><span class="mean">お父さん</span></div>
+<div class="row"><button class="play word-btn" data-c="u7_027_w.mp3">🔊 単語</button><span class="txt">dad</span></div>
+<div class="row"><button class="play" data-c="u7_027_e1.mp3">🔊 例文①</button><span class="txt">My dad is a science teacher.<small>私の父は理科の先生です。</small></span></div>
+<div class="row"><button class="play" data-c="u7_027_e2.mp3">🔊 例文②</button><span class="txt">Your dad is washing his car.<small>あなたのお父さんは車を洗っています。</small></span></div>
+</div>
+<div class="card" id="w028">
+<div class="wline"><span class="num">3</span><span class="word">travel(ing)</span><span class="mean">旅行する</span></div>
+<div class="row"><button class="play word-btn" data-c="u7_028_w.mp3">🔊 単語</button><span class="txt">travel(ing)</span></div>
+<div class="row"><button class="play" data-c="u7_028_e1.mp3">🔊 例文①</button><span class="txt">We're traveling in London now.<small>私たちは今ロンドンを旅行しています。</small></span></div>
+<div class="row"><button class="play" data-c="u7_028_e2.mp3">🔊 例文②</button><span class="txt">Ken is traveling in Kyoto now.<small>ケンは今京都を旅行しています。</small></span></div>
+</div>
+<div class="card" id="w029">
+<div class="wline"><span class="num">4</span><span class="word">angry</span><span class="mean">怒った、腹を立てた</span></div>
+<div class="row"><button class="play word-btn" data-c="u7_029_w.mp3">🔊 単語</button><span class="txt">angry</span></div>
+<div class="row"><button class="play" data-c="u7_029_e1.mp3">🔊 例文①</button><span class="txt">Don't be angry.<small>怒らないで。</small></span></div>
+<div class="row"><button class="play" data-c="u7_029_e2.mp3">🔊 例文②</button><span class="txt">My brother is angry today.<small>私の兄は今日怒っています。</small></span></div>
+</div>
+<div class="card" id="w030">
+<div class="wline"><span class="num">5</span><span class="word">palace</span><span class="mean">宮殿、王宮</span></div>
+<div class="row"><button class="play word-btn" data-c="u7_030_w.mp3">🔊 単語</button><span class="txt">palace</span></div>
+<div class="row"><button class="play" data-c="u7_030_e1.mp3">🔊 例文①</button><span class="txt">We're looking at Buckingham Palace now.<small>私たちは今バッキンガム宮殿を見ています。</small></span></div>
+<div class="row"><button class="play" data-c="u7_030_e2.mp3">🔊 例文②</button><span class="txt">What a beautiful palace!<small>なんと美しい宮殿でしょう。</small></span></div>
+</div>
+<div class="card" id="w031">
+<div class="wline"><span class="num">6</span><span class="word">exciting</span><span class="mean">興奮させるような、わくわくさせるような</span></div>
+<div class="row"><button class="play word-btn" data-c="u7_031_w.mp3">🔊 単語</button><span class="txt">exciting</span></div>
+<div class="row"><button class="play" data-c="u7_031_e1.mp3">🔊 例文①</button><span class="txt">Well, that sounds exciting, but don't be too late.<small>まあ、それはわくわくしそうですが、遅くなりすぎないで。</small></span></div>
+<div class="row"><button class="play" data-c="u7_031_e2.mp3">🔊 例文②</button><span class="txt">What an exciting game!<small>なんとわくわくする試合でしょう。</small></span></div>
+</div>
+<div class="card" id="w032">
+<div class="wline"><span class="num">7</span><span class="word">late</span><span class="mean">遅い、おくれた</span></div>
+<div class="row"><button class="play word-btn" data-c="u7_032_w.mp3">🔊 単語</button><span class="txt">late</span></div>
+<div class="row"><button class="play" data-c="u7_032_e1.mp3">🔊 例文①</button><span class="txt">Well, that sounds exciting, but don't be too late.<small>まあ、それはわくわくしそうですが、遅くなりすぎないで。</small></span></div>
+<div class="row"><button class="play" data-c="u7_032_e2.mp3">🔊 例文②</button><span class="txt">Emi is late for school today.<small>エミは今日学校に遅れています。</small></span></div>
+</div>
+<div class="card" id="w033">
+<div class="wline"><span class="num">8</span><span class="word">Buckingham Palace</span><span class="mean">バッキンガム宮殿</span></div>
+<div class="row"><button class="play word-btn" data-c="u7_033_w.mp3">🔊 単語</button><span class="txt">Buckingham Palace</span></div>
+<div class="row"><button class="play" data-c="u7_033_e1.mp3">🔊 例文①</button><span class="txt">We're looking at Buckingham Palace now.<small>私たちは今バッキンガム宮殿を見ています。</small></span></div>
+<div class="row"><button class="play" data-c="u7_033_e2.mp3">🔊 例文②</button><span class="txt">Many people visit Buckingham Palace every year.<small>多くの人々が毎年バッキンガム宮殿を訪れます。</small></span></div>
+</div>
+<div class="card" id="w034">
+<div class="wline"><span class="num">9</span><span class="word">sorry</span><span class="mean">すまなく思って</span></div>
+<div class="row"><button class="play word-btn" data-c="u7_034_w.mp3">🔊 単語</button><span class="txt">sorry</span></div>
+<div class="row"><button class="play" data-c="u7_034_e1.mp3">🔊 例文①</button><span class="txt">Yes, I'm sorry.<small>はい、ごめんなさい。</small></span></div>
+<div class="row"><button class="play" data-c="u7_034_e2.mp3">🔊 例文②</button><span class="txt">Ken is sorry about that.<small>ケンはそのことをすまなく思っています。</small></span></div>
+</div>
+<div class="card" id="w035">
+<div class="wline"><span class="num">10</span><span class="word">funny</span><span class="mean">おかしな</span></div>
+<div class="row"><button class="play word-btn" data-c="u7_035_w.mp3">🔊 単語</button><span class="txt">funny</span></div>
+<div class="row"><button class="play" data-c="u7_035_e1.mp3">🔊 例文①</button><span class="txt">London? What a funny excuse!<small>ロンドン。なんとおかしな言いわけでしょう。</small></span></div>
+<div class="row"><button class="play" data-c="u7_035_e2.mp3">🔊 例文②</button><span class="txt">This movie is very funny.<small>この映画はとてもおかしいです。</small></span></div>
+</div>
+<div class="card" id="w036">
+<div class="wline"><span class="num">11</span><span class="word">OK</span><span class="mean">よろしい、はい</span></div>
+<div class="row"><button class="play word-btn" data-c="u7_036_w.mp3">🔊 単語</button><span class="txt">OK</span></div>
+<div class="row"><button class="play" data-c="u7_036_e1.mp3">🔊 例文①</button><span class="txt">OK, Mom. Thanks!<small>はい、お母さん。ありがとう。</small></span></div>
+<div class="row"><button class="play" data-c="u7_036_e2.mp3">🔊 例文②</button><span class="txt">OK, let's start.<small>よろしい、始めましょう。</small></span></div>
+</div>
+<div class="card" id="w037">
+<div class="wline"><span class="num">●</span><span class="word">I'm sorry.</span><span class="mean">ごめんなさい。すみません。</span></div>
+<div class="row"><button class="play word-btn" data-c="u7_037_w.mp3">🔊 単語</button><span class="txt">I'm sorry.</span></div>
+<div class="row"><button class="play" data-c="u7_037_e1.mp3">🔊 例文①</button><span class="txt">Yes, I'm sorry.<small>はい、ごめんなさい。</small></span></div>
+<div class="row"><button class="play" data-c="u7_037_e2.mp3">🔊 例文②</button><span class="txt">I'm sorry. I can't come today.<small>ごめんなさい。私は今日行けません。</small></span></div>
+</div>
+<div class="card" id="w038">
+<div class="wline"><span class="num">↓</span><span class="word">we're</span><span class="mean">⇐ we are</span></div>
+<div class="row"><button class="play word-btn" data-c="u7_038_w.mp3">🔊 単語</button><span class="txt">we're</span></div>
+<div class="row"><button class="play" data-c="u7_038_e1.mp3">🔊 例文①</button><span class="txt">We're taking an online tour.<small>私たちはオンラインツアーをしています。</small></span></div>
+<div class="row"><button class="play" data-c="u7_038_e2.mp3">🔊 例文②</button><span class="txt">We're waiting for the bus.<small>私たちはバスを待っています。</small></span></div>
+</div>
+<div class="sec">Real Life English　Scene 3</div>
+<div class="card" id="w039">
+<div class="wline"><span class="num">1</span><span class="word">pardon</span><span class="mean">[Pardon me?で]何とおっしゃいましたか。</span></div>
+<div class="row"><button class="play word-btn" data-c="u7_039_w.mp3">🔊 単語</button><span class="txt">pardon</span></div>
+<div class="row"><button class="play" data-c="u7_039_e1.mp3">🔊 例文①</button><span class="txt">Pardon me?<small>何とおっしゃいましたか。</small></span></div>
+<div class="row"><button class="play" data-c="u7_039_e2.mp3">🔊 例文②</button><span class="txt">Pardon me? Please say that again.<small>何とおっしゃいましたか。もう一度言ってください。</small></span></div>
+</div>
+<div class="card" id="w040">
+<div class="wline"><span class="num">2</span><span class="word">along</span><span class="mean">…に沿って</span></div>
+<div class="row"><button class="play word-btn" data-c="u7_040_w.mp3">🔊 単語</button><span class="txt">along</span></div>
+<div class="row"><button class="play" data-c="u7_040_e1.mp3">🔊 例文①</button><span class="txt">Go along this street.<small>この通りに沿って行ってください。</small></span></div>
+<div class="row"><button class="play" data-c="u7_040_e2.mp3">🔊 例文②</button><span class="txt">Walk along this road.<small>この道に沿って歩いてください。</small></span></div>
+</div>
+<div class="card" id="w041">
+<div class="wline"><span class="num">3</span><span class="word">street</span><span class="mean">通り、街路</span></div>
+<div class="row"><button class="play word-btn" data-c="u7_041_w.mp3">🔊 単語</button><span class="txt">street</span></div>
+<div class="row"><button class="play" data-c="u7_041_e1.mp3">🔊 例文①</button><span class="txt">Go along this street.<small>この通りに沿って行ってください。</small></span></div>
+<div class="row"><button class="play" data-c="u7_041_e2.mp3">🔊 例文②</button><span class="txt">Cross the street at the traffic light.<small>信号のところで通りを渡ってください。</small></span></div>
+</div>
+<div class="card" id="w042">
+<div class="wline"><span class="num">4</span><span class="word">traffic light</span><span class="mean">交通信号</span></div>
+<div class="row"><button class="play word-btn" data-c="u7_042_w.mp3">🔊 単語</button><span class="txt">traffic light</span></div>
+<div class="row"><button class="play" data-c="u7_042_e1.mp3">🔊 例文①</button><span class="txt">Turn left at the second traffic light.<small>2つめの信号を左に曲がってください。</small></span></div>
+<div class="row"><button class="play" data-c="u7_042_e2.mp3">🔊 例文②</button><span class="txt">Go straight to the next traffic light.<small>次の信号までまっすぐ行ってください。</small></span></div>
+</div>
+<div class="card" id="w043">
+<div class="wline"><span class="num">5</span><span class="word">straight</span><span class="mean">まっすぐに</span></div>
+<div class="row"><button class="play word-btn" data-c="u7_043_w.mp3">🔊 単語</button><span class="txt">straight</span></div>
+<div class="row"><button class="play" data-c="u7_043_e1.mp3">🔊 例文①</button><span class="txt">Go straight, and turn right at the factory.<small>まっすぐ行って、工場を右に曲がってください。</small></span></div>
+<div class="row"><button class="play" data-c="u7_043_e2.mp3">🔊 例文②</button><span class="txt">Go straight and cross the bridge.<small>まっすぐ行って、橋を渡ってください。</small></span></div>
+</div>
+<div class="card" id="w044">
+<div class="wline"><span class="num">6</span><span class="word">factory</span><span class="mean">工場</span></div>
+<div class="row"><button class="play word-btn" data-c="u7_044_w.mp3">🔊 単語</button><span class="txt">factory</span></div>
+<div class="row"><button class="play" data-c="u7_044_e1.mp3">🔊 例文①</button><span class="txt">Go straight, and turn right at the factory.<small>まっすぐ行って、工場を右に曲がってください。</small></span></div>
+<div class="row"><button class="play" data-c="u7_044_e2.mp3">🔊 例文②</button><span class="txt">My uncle works at a factory.<small>私のおじは工場で働いています。</small></span></div>
+</div>
+<div class="card" id="w045">
+<div class="wline"><span class="num">7</span><span class="word">building</span><span class="mean">建物、ビル</span></div>
+<div class="row"><button class="play word-btn" data-c="u7_045_w.mp3">🔊 単語</button><span class="txt">building</span></div>
+<div class="row"><button class="play" data-c="u7_045_e1.mp3">🔊 例文①</button><span class="txt">You can see a large building.<small>大きな建物が見えます。</small></span></div>
+<div class="row"><button class="play" data-c="u7_045_e2.mp3">🔊 例文②</button><span class="txt">Look at the tall building on your right.<small>右手の高い建物を見てください。</small></span></div>
+</div>
+<div class="card" id="w046">
+<div class="wline"><span class="num">8</span><span class="word">woman</span><span class="mean">女性、女の人</span></div>
+<div class="row"><button class="play word-btn" data-c="u7_046_w.mp3">🔊 単語</button><span class="txt">woman</span></div>
+<div class="row"><button class="play" data-c="u7_046_e1.mp3">🔊 例文①</button><span class="txt">A woman is waiting at the bus stop.<small>女性がバス停で待っています。</small></span></div>
+<div class="row"><button class="play" data-c="u7_046_e2.mp3">🔊 例文②</button><span class="txt">Please ask that woman.<small>あの女性にたずねてください。</small></span></div>
+</div>
+<div class="card" id="w047">
+<div class="wline"><span class="num">9</span><span class="word">hospital</span><span class="mean">病院</span></div>
+<div class="row"><button class="play word-btn" data-c="u7_047_w.mp3">🔊 単語</button><span class="txt">hospital</span></div>
+<div class="row"><button class="play" data-c="u7_047_e1.mp3">🔊 例文①</button><span class="txt">That's the hospital.<small>あれが病院です。</small></span></div>
+<div class="row"><button class="play" data-c="u7_047_e2.mp3">🔊 例文②</button><span class="txt">Turn right at the hospital.<small>病院を右に曲がってください。</small></span></div>
+</div>
+<div class="card" id="w048">
+<div class="wline"><span class="num">10</span><span class="word">left</span><span class="mean">左に[へ]、左側に</span></div>
+<div class="row"><button class="play word-btn" data-c="u7_048_w.mp3">🔊 単語</button><span class="txt">left</span></div>
+<div class="row"><button class="play" data-c="u7_048_e1.mp3">🔊 例文①</button><span class="txt">Turn left at the second traffic light.<small>2つめの信号を左に曲がってください。</small></span></div>
+<div class="row"><button class="play" data-c="u7_048_e2.mp3">🔊 例文②</button><span class="txt">Turn left at the next corner.<small>次の角を左に曲がってください。</small></span></div>
+</div>
+<div class="card" id="w049">
+<div class="wline"><span class="num">11</span><span class="word">right</span><span class="mean">右に[へ]、右側に</span></div>
+<div class="row"><button class="play word-btn" data-c="u7_049_w.mp3">🔊 単語</button><span class="txt">right</span></div>
+<div class="row"><button class="play" data-c="u7_049_e1.mp3">🔊 例文①</button><span class="txt">Go straight, and turn right at the factory.<small>まっすぐ行って、工場を右に曲がってください。</small></span></div>
+<div class="row"><button class="play" data-c="u7_049_e2.mp3">🔊 例文②</button><span class="txt">Turn right at the post office.<small>郵便局を右に曲がってください。</small></span></div>
+</div>
+<div class="card" id="w050">
+<div class="wline"><span class="num">12</span><span class="word">museum</span><span class="mean">博物館、美術館</span></div>
+<div class="row"><button class="play word-btn" data-c="u7_050_w.mp3">🔊 単語</button><span class="txt">museum</span></div>
+<div class="row"><button class="play" data-c="u7_050_e1.mp3">🔊 例文①</button><span class="txt">The museum is near my school.<small>博物館は私の学校の近くにあります。</small></span></div>
+<div class="row"><button class="play" data-c="u7_050_e2.mp3">🔊 例文②</button><span class="txt">Let's visit the museum this Sunday.<small>今度の日曜日に博物館を訪れましょう。</small></span></div>
+</div>
+<div class="card" id="w051">
+<div class="wline"><span class="num">13</span><span class="word">post office</span><span class="mean">郵便局</span></div>
+<div class="row"><button class="play word-btn" data-c="u7_051_w.mp3">🔊 単語</button><span class="txt">post office</span></div>
+<div class="row"><button class="play" data-c="u7_051_e1.mp3">🔊 例文①</button><span class="txt">My mother is at the post office.<small>私の母は郵便局にいます。</small></span></div>
+<div class="row"><button class="play" data-c="u7_051_e2.mp3">🔊 例文②</button><span class="txt">The post office is near my house.<small>郵便局は私の家の近くにあります。</small></span></div>
+</div>
+<div class="card" id="w052">
+<div class="wline"><span class="num">14</span><span class="word">library</span><span class="mean">図書館</span></div>
+<div class="row"><button class="play word-btn" data-c="u7_052_w.mp3">🔊 単語</button><span class="txt">library</span></div>
+<div class="row"><button class="play" data-c="u7_052_e1.mp3">🔊 例文①</button><span class="txt">Where is the library?<small>図書館はどこですか。</small></span></div>
+<div class="row"><button class="play" data-c="u7_052_e2.mp3">🔊 例文②</button><span class="txt">Turn left at the library.<small>図書館を左に曲がってください。</small></span></div>
+</div>
+<div class="card" id="w053">
+<div class="wline"><span class="num">●</span><span class="word">look for</span><span class="mean">…をさがす</span></div>
+<div class="row"><button class="play word-btn" data-c="u7_053_w.mp3">🔊 単語</button><span class="txt">look for</span></div>
+<div class="row"><button class="play" data-c="u7_053_e1.mp3">🔊 例文①</button><span class="txt">I'm looking for City Hospital.<small>私は市民病院をさがしています。</small></span></div>
+<div class="row"><button class="play" data-c="u7_053_e2.mp3">🔊 例文②</button><span class="txt">Ken is looking for his cap.<small>ケンは帽子をさがしています。</small></span></div>
+</div>
+<div class="card" id="w054">
+<div class="wline"><span class="num">●</span><span class="word">Pardon me?</span><span class="mean">何とおっしゃいましたか。</span></div>
+<div class="row"><button class="play word-btn" data-c="u7_054_w.mp3">🔊 単語</button><span class="txt">Pardon me?</span></div>
+<div class="row"><button class="play" data-c="u7_054_e1.mp3">🔊 例文①</button><span class="txt">Pardon me?<small>何とおっしゃいましたか。</small></span></div>
+<div class="row"><button class="play" data-c="u7_054_e2.mp3">🔊 例文②</button><span class="txt">Pardon me? Please speak more slowly.<small>何とおっしゃいましたか。もっとゆっくり話してください。</small></span></div>
+</div>
+<div class="card" id="w055">
+<div class="wline"><span class="num">●</span><span class="word">Let's see.</span><span class="mean">ええと。そうですね。</span></div>
+<div class="row"><button class="play word-btn" data-c="u7_055_w.mp3">🔊 単語</button><span class="txt">Let's see.</span></div>
+<div class="row"><button class="play" data-c="u7_055_e1.mp3">🔊 例文①</button><span class="txt">Let's see . . . .<small>ええと。</small></span></div>
+<div class="row"><button class="play" data-c="u7_055_e2.mp3">🔊 例文②</button><span class="txt">Let's see. The library is over there.<small>ええと。図書館はあそこにあります。</small></span></div>
+</div>
+<div class="card" id="w056">
+<div class="wline"><span class="num">●</span><span class="word">go along</span><span class="mean">（通り・道）を進む</span></div>
+<div class="row"><button class="play word-btn" data-c="u7_056_w.mp3">🔊 単語</button><span class="txt">go along</span></div>
+<div class="row"><button class="play" data-c="u7_056_e1.mp3">🔊 例文①</button><span class="txt">Go along this street.<small>この通りに沿って行ってください。</small></span></div>
+<div class="row"><button class="play" data-c="u7_056_e2.mp3">🔊 例文②</button><span class="txt">Go along this road, and turn left at the hospital.<small>この道を進んで、病院を左に曲がってください。</small></span></div>
+</div>
+<footer>Fuki Elementary and Middle School　<span style="opacity:.6">build v1 2026-08-07</span></footer>
+<script>
+const CLIPS = {"u7_001_w.mp3": ["u7_s1.050223cf.m4a", 0.0, 0.875], "u7_001_e1.mp3": ["u7_s1.050223cf.m4a", 1.095, 6.089], "u7_001_e2.mp3": ["u7_s1.050223cf.m4a", 6.309, 13.116], "u7_002_w.mp3": ["u7_s1.050223cf.m4a", 13.336, 14.939], "u7_002_e1.mp3": ["u7_s1.050223cf.m4a", 15.159, 19.477], "u7_002_e2.mp3": ["u7_s1.050223cf.m4a", 19.697, 25.071], "u7_003_w.mp3": ["u7_s1.050223cf.m4a", 25.291, 26.004], "u7_003_e1.mp3": ["u7_s1.050223cf.m4a", 26.224, 30.096], "u7_003_e2.mp3": ["u7_s1.050223cf.m4a", 30.316, 34.569], "u7_004_w.mp3": ["u7_s1.050223cf.m4a", 34.789, 35.47], "u7_004_e1.mp3": ["u7_s1.050223cf.m4a", 35.69, 38.688], "u7_004_e2.mp3": ["u7_s1.050223cf.m4a", 38.908, 43.11], "u7_005_w.mp3": ["u7_s1.050223cf.m4a", 43.33, 44.16], "u7_005_e1.mp3": ["u7_s1.050223cf.m4a", 44.38, 49.142], "u7_005_e2.mp3": ["u7_s1.050223cf.m4a", 49.361, 54.636], "u7_006_w.mp3": ["u7_s1.050223cf.m4a", 54.856, 55.563], "u7_006_e1.mp3": ["u7_s1.050223cf.m4a", 55.783, 59.478], "u7_006_e2.mp3": ["u7_s1.050223cf.m4a", 59.698, 64.858], "u7_007_w.mp3": ["u7_s1.050223cf.m4a", 65.078, 65.827], "u7_007_e1.mp3": ["u7_s1.050223cf.m4a", 66.047, 72.153], "u7_007_e2.mp3": ["u7_s1.050223cf.m4a", 72.373, 77.011], "u7_008_w.mp3": ["u7_s1.050223cf.m4a", 77.231, 77.758], "u7_008_e1.mp3": ["u7_s1.050223cf.m4a", 77.978, 80.635], "u7_008_e2.mp3": ["u7_s1.050223cf.m4a", 80.855, 87.208], "u7_009_w.mp3": ["u7_s1.050223cf.m4a", 87.428, 88.296], "u7_009_e1.mp3": ["u7_s1.050223cf.m4a", 88.516, 91.173], "u7_009_e2.mp3": ["u7_s1.050223cf.m4a", 91.393, 95.229], "u7_010_w.mp3": ["u7_s1.050223cf.m4a", 95.449, 96.499], "u7_010_e1.mp3": ["u7_s1.050223cf.m4a", 96.719, 100.709], "u7_010_e2.mp3": ["u7_s1.050223cf.m4a", 100.929, 105.414], "u7_011_w.mp3": ["u7_s1.050223cf.m4a", 105.634, 106.913], "u7_011_e1.mp3": ["u7_s1.050223cf.m4a", 107.133, 111.895], "u7_011_e2.mp3": ["u7_s1.050223cf.m4a", 112.115, 117.086], "u7_012_w.mp3": ["u7_s2.cbb2972b.m4a", 0.0, 0.816], "u7_012_e1.mp3": ["u7_s2.cbb2972b.m4a", 1.036, 5.857], "u7_012_e2.mp3": ["u7_s2.cbb2972b.m4a", 6.077, 10.985], "u7_013_w.mp3": ["u7_s2.cbb2972b.m4a", 11.205, 13.138], "u7_013_e1.mp3": ["u7_s2.cbb2972b.m4a", 13.358, 19.606], "u7_013_e2.mp3": ["u7_s2.cbb2972b.m4a", 19.826, 24.462], "u7_014_w.mp3": ["u7_s2.cbb2972b.m4a", 24.682, 25.44], "u7_014_e1.mp3": ["u7_s2.cbb2972b.m4a", 25.66, 31.559], "u7_014_e2.mp3": ["u7_s2.cbb2972b.m4a", 31.779, 37.306], "u7_015_w.mp3": ["u7_s2.cbb2972b.m4a", 37.526, 39.147], "u7_015_e1.mp3": ["u7_s2.cbb2972b.m4a", 39.367, 47.75], "u7_015_e2.mp3": ["u7_s2.cbb2972b.m4a", 47.97, 52.509], "u7_016_w.mp3": ["u7_s2.cbb2972b.m4a", 52.729, 53.444], "u7_016_e1.mp3": ["u7_s2.cbb2972b.m4a", 53.664, 58.139], "u7_016_e2.mp3": ["u7_s2.cbb2972b.m4a", 58.359, 63.449], "u7_017_w.mp3": ["u7_s2.cbb2972b.m4a", 63.669, 64.393], "u7_017_e1.mp3": ["u7_s2.cbb2972b.m4a", 64.613, 67.526], "u7_017_e2.mp3": ["u7_s2.cbb2972b.m4a", 67.746, 72.273], "u7_018_w.mp3": ["u7_s2.cbb2972b.m4a", 72.493, 73.283], "u7_018_e1.mp3": ["u7_s2.cbb2972b.m4a", 73.503, 78.324], "u7_018_e2.mp3": ["u7_s2.cbb2972b.m4a", 78.544, 83.471], "u7_019_w.mp3": ["u7_s2.cbb2972b.m4a", 83.691, 84.744], "u7_019_e1.mp3": ["u7_s2.cbb2972b.m4a", 84.964, 93.346], "u7_019_e2.mp3": ["u7_s2.cbb2972b.m4a", 93.566, 99.363], "u7_020_w.mp3": ["u7_s2.cbb2972b.m4a", 99.583, 100.283], "u7_020_e1.mp3": ["u7_s2.cbb2972b.m4a", 100.503, 104.599], "u7_020_e2.mp3": ["u7_s2.cbb2972b.m4a", 104.819, 109.531], "u7_021_w.mp3": ["u7_s2.cbb2972b.m4a", 109.751, 111.118], "u7_021_e1.mp3": ["u7_s2.cbb2972b.m4a", 111.338, 115.521], "u7_021_e2.mp3": ["u7_s2.cbb2972b.m4a", 115.741, 121.201], "u7_022_w.mp3": ["u7_s2.cbb2972b.m4a", 121.421, 122.541], "u7_022_e1.mp3": ["u7_s2.cbb2972b.m4a", 122.761, 128.931], "u7_022_e2.mp3": ["u7_s2.cbb2972b.m4a", 129.151, 135.413], "u7_023_w.mp3": ["u7_s2.cbb2972b.m4a", 135.633, 136.237], "u7_023_e1.mp3": ["u7_s2.cbb2972b.m4a", 136.457, 142.706], "u7_023_e2.mp3": ["u7_s2.cbb2972b.m4a", 142.925, 148.811], "u7_024_w.mp3": ["u7_s2.cbb2972b.m4a", 149.031, 149.759], "u7_024_e1.mp3": ["u7_s2.cbb2972b.m4a", 149.979, 154.454], "u7_024_e2.mp3": ["u7_s2.cbb2972b.m4a", 154.674, 159.829], "u7_025_w.mp3": ["u7_s2.cbb2972b.m4a", 160.049, 161.069], "u7_025_e1.mp3": ["u7_s2.cbb2972b.m4a", 161.289, 166.295], "u7_025_e2.mp3": ["u7_s2.cbb2972b.m4a", 166.515, 169.582], "u7_026_w.mp3": ["u7_s3.ef5d7cb0.m4a", 0.0, 0.588], "u7_026_e1.mp3": ["u7_s3.ef5d7cb0.m4a", 0.808, 7.235], "u7_026_e2.mp3": ["u7_s3.ef5d7cb0.m4a", 7.455, 12.73], "u7_027_w.mp3": ["u7_s3.ef5d7cb0.m4a", 12.95, 13.648], "u7_027_e1.mp3": ["u7_s3.ef5d7cb0.m4a", 13.868, 18.678], "u7_027_e2.mp3": ["u7_s3.ef5d7cb0.m4a", 18.898, 24.271], "u7_028_w.mp3": ["u7_s3.ef5d7cb0.m4a", 24.491, 26.086], "u7_028_e1.mp3": ["u7_s3.ef5d7cb0.m4a", 26.306, 31.456], "u7_028_e2.mp3": ["u7_s3.ef5d7cb0.m4a", 31.676, 36.507], "u7_029_w.mp3": ["u7_s3.ef5d7cb0.m4a", 36.727, 37.495], "u7_029_e1.mp3": ["u7_s3.ef5d7cb0.m4a", 37.715, 40.344], "u7_029_e2.mp3": ["u7_s3.ef5d7cb0.m4a", 40.564, 45.11], "u7_030_w.mp3": ["u7_s3.ef5d7cb0.m4a", 45.33, 46.182], "u7_030_e1.mp3": ["u7_s3.ef5d7cb0.m4a", 46.402, 52.285], "u7_030_e2.mp3": ["u7_s3.ef5d7cb0.m4a", 52.505, 56.678], "u7_031_w.mp3": ["u7_s3.ef5d7cb0.m4a", 56.898, 57.843], "u7_031_e1.mp3": ["u7_s3.ef5d7cb0.m4a", 58.063, 66.051], "u7_031_e2.mp3": ["u7_s3.ef5d7cb0.m4a", 66.271, 70.331], "u7_032_w.mp3": ["u7_s3.ef5d7cb0.m4a", 70.551, 71.258], "u7_032_e1.mp3": ["u7_s3.ef5d7cb0.m4a", 71.478, 79.466], "u7_032_e2.mp3": ["u7_s3.ef5d7cb0.m4a", 79.686, 84.36], "u7_033_w.mp3": ["u7_s3.ef5d7cb0.m4a", 84.58, 86.041], "u7_033_e1.mp3": ["u7_s3.ef5d7cb0.m4a", 86.261, 92.145], "u7_033_e2.mp3": ["u7_s3.ef5d7cb0.m4a", 92.365, 99.645], "u7_034_w.mp3": ["u7_s3.ef5d7cb0.m4a", 99.865, 100.663], "u7_034_e1.mp3": ["u7_s3.ef5d7cb0.m4a", 100.883, 104.401], "u7_034_e2.mp3": ["u7_s3.ef5d7cb0.m4a", 104.621, 109.68], "u7_035_w.mp3": ["u7_s3.ef5d7cb0.m4a", 109.9, 110.619], "u7_035_e1.mp3": ["u7_s3.ef5d7cb0.m4a", 110.839, 117.917], "u7_035_e2.mp3": ["u7_s3.ef5d7cb0.m4a", 118.137, 122.475], "u7_036_w.mp3": ["u7_s3.ef5d7cb0.m4a", 122.695, 123.465], "u7_036_e1.mp3": ["u7_s3.ef5d7cb0.m4a", 123.685, 130.112], "u7_036_e2.mp3": ["u7_s3.ef5d7cb0.m4a", 130.332, 134.528], "u7_037_w.mp3": ["u7_s3.ef5d7cb0.m4a", 134.748, 135.707], "u7_037_e1.mp3": ["u7_s3.ef5d7cb0.m4a", 135.927, 139.448], "u7_037_e2.mp3": ["u7_s3.ef5d7cb0.m4a", 139.668, 146.805], "u7_038_w.mp3": ["u7_s3.ef5d7cb0.m4a", 147.025, 147.673], "u7_038_e1.mp3": ["u7_s3.ef5d7cb0.m4a", 147.893, 153.071], "u7_038_e2.mp3": ["u7_s3.ef5d7cb0.m4a", 153.291, 157.436], "u7_039_w.mp3": ["u7_s4.b8482efb.m4a", 0.0, 0.688], "u7_039_e1.mp3": ["u7_s4.b8482efb.m4a", 0.908, 3.788], "u7_039_e2.mp3": ["u7_s4.b8482efb.m4a", 4.008, 11.49], "u7_040_w.mp3": ["u7_s4.b8482efb.m4a", 11.71, 12.542], "u7_040_e1.mp3": ["u7_s4.b8482efb.m4a", 12.762, 16.812], "u7_040_e2.mp3": ["u7_s4.b8482efb.m4a", 17.032, 21.176], "u7_041_w.mp3": ["u7_s4.b8482efb.m4a", 21.396, 22.25], "u7_041_e1.mp3": ["u7_s4.b8482efb.m4a", 22.47, 26.519], "u7_041_e2.mp3": ["u7_s4.b8482efb.m4a", 26.739, 32.264], "u7_042_w.mp3": ["u7_s4.b8482efb.m4a", 32.484, 33.686], "u7_042_e1.mp3": ["u7_s4.b8482efb.m4a", 33.906, 39.877], "u7_042_e2.mp3": ["u7_s4.b8482efb.m4a", 40.097, 45.451], "u7_043_w.mp3": ["u7_s4.b8482efb.m4a", 45.671, 46.523], "u7_043_e1.mp3": ["u7_s4.b8482efb.m4a", 46.743, 53.347], "u7_043_e2.mp3": ["u7_s4.b8482efb.m4a", 53.567, 58.77], "u7_044_w.mp3": ["u7_s4.b8482efb.m4a", 58.99, 59.928], "u7_044_e1.mp3": ["u7_s4.b8482efb.m4a", 60.148, 66.752], "u7_044_e2.mp3": ["u7_s4.b8482efb.m4a", 66.972, 72.149], "u7_045_w.mp3": ["u7_s4.b8482efb.m4a", 72.369, 73.12], "u7_045_e1.mp3": ["u7_s4.b8482efb.m4a", 73.34, 77.391], "u7_045_e2.mp3": ["u7_s4.b8482efb.m4a", 77.611, 82.651], "u7_046_w.mp3": ["u7_s4.b8482efb.m4a", 82.871, 83.62], "u7_046_e1.mp3": ["u7_s4.b8482efb.m4a", 83.84, 88.637], "u7_046_e2.mp3": ["u7_s4.b8482efb.m4a", 88.857, 92.791], "u7_047_w.mp3": ["u7_s4.b8482efb.m4a", 93.011, 93.925], "u7_047_e1.mp3": ["u7_s4.b8482efb.m4a", 94.144, 97.224], "u7_047_e2.mp3": ["u7_s4.b8482efb.m4a", 97.444, 101.757], "u7_048_w.mp3": ["u7_s4.b8482efb.m4a", 101.977, 102.704], "u7_048_e1.mp3": ["u7_s4.b8482efb.m4a", 102.924, 108.895], "u7_048_e2.mp3": ["u7_s4.b8482efb.m4a", 109.115, 114.051], "u7_049_w.mp3": ["u7_s4.b8482efb.m4a", 114.271, 115.035], "u7_049_e1.mp3": ["u7_s4.b8482efb.m4a", 115.255, 121.858], "u7_049_e2.mp3": ["u7_s4.b8482efb.m4a", 122.078, 127.069], "u7_050_w.mp3": ["u7_s4.b8482efb.m4a", 127.289, 128.174], "u7_050_e1.mp3": ["u7_s4.b8482efb.m4a", 128.394, 134.168], "u7_050_e2.mp3": ["u7_s4.b8482efb.m4a", 134.388, 140.447], "u7_051_w.mp3": ["u7_s4.b8482efb.m4a", 140.667, 141.862], "u7_051_e1.mp3": ["u7_s4.b8482efb.m4a", 142.082, 147.139], "u7_051_e2.mp3": ["u7_s4.b8482efb.m4a", 147.359, 153.131], "u7_052_w.mp3": ["u7_s4.b8482efb.m4a", 153.351, 154.278], "u7_052_e1.mp3": ["u7_s4.b8482efb.m4a", 154.498, 157.847], "u7_052_e2.mp3": ["u7_s4.b8482efb.m4a", 158.067, 162.497], "u7_053_w.mp3": ["u7_s4.b8482efb.m4a", 162.717, 163.724], "u7_053_e1.mp3": ["u7_s4.b8482efb.m4a", 163.944, 169.033], "u7_053_e2.mp3": ["u7_s4.b8482efb.m4a", 169.253, 173.574], "u7_054_w.mp3": ["u7_s4.b8482efb.m4a", 173.794, 174.617], "u7_054_e1.mp3": ["u7_s4.b8482efb.m4a", 174.837, 177.719], "u7_054_e2.mp3": ["u7_s4.b8482efb.m4a", 177.939, 186.134], "u7_055_w.mp3": ["u7_s4.b8482efb.m4a", 186.354, 187.306], "u7_055_e1.mp3": ["u7_s4.b8482efb.m4a", 187.526, 189.626], "u7_055_e2.mp3": ["u7_s4.b8482efb.m4a", 189.846, 197.284], "u7_056_w.mp3": ["u7_s4.b8482efb.m4a", 197.504, 198.45], "u7_056_e1.mp3": ["u7_s4.b8482efb.m4a", 198.67, 202.72], "u7_056_e2.mp3": ["u7_s4.b8482efb.m4a", 202.94, 210.439]};
+let ctx = null;
+const buffers = {};
+const fetching = {};
+let srcNode = null;
+let token = 0;
+let activeBtn = null;
+
+function resetBtn() {
+  if (activeBtn) {
+    activeBtn.classList.remove('loading', 'playing');
+    activeBtn.textContent = activeBtn.dataset.label;
+    activeBtn = null;
+  }
+}
+function stopCurrent() {
+  if (srcNode) {
+    try { srcNode.onended = null; srcNode.stop(); } catch (e) {}
+    srcNode = null;
+  }
+  resetBtn();
+}
+function loadBuffer(file) {
+  if (buffers[file]) return Promise.resolve(buffers[file]);
+  if (!fetching[file]) {
+    fetching[file] = fetch(file)
+      .then(r => { if (!r.ok) throw new Error(r.status); return r.arrayBuffer(); })
+      .then(ab => new Promise((res, rej) => ctx.decodeAudioData(ab, res, rej)))
+      .then(buf => { buffers[file] = buf; return buf; })
+      .catch(err => { delete fetching[file]; throw err; });
+  }
+  return fetching[file];
+}
+function playClip(btn) {
+  const info = CLIPS[btn.dataset.c];
+  if (!info) { alert('音声データが見つかりません'); return; }
+  const [file, start, end] = info;
+  if (!ctx) ctx = new (window.AudioContext || window.webkitAudioContext)();
+  if (ctx.state === 'suspended') ctx.resume();
+  stopCurrent();
+  const myToken = ++token;
+  activeBtn = btn;
+  btn.dataset.label = btn.dataset.label || btn.textContent;
+  const startPlayback = (buffer) => {
+    if (myToken !== token) return;
+    btn.classList.remove('loading');
+    btn.textContent = btn.dataset.label;
+    btn.classList.add('playing');
+    const s = ctx.createBufferSource();
+    s.buffer = buffer;
+    s.connect(ctx.destination);
+    s.onended = () => { if (myToken === token) { srcNode = null; resetBtn(); } };
+    srcNode = s;
+    s.start(0, start, end - start);
+  };
+  const buf = buffers[file];
+  if (buf) {
+    startPlayback(buf);
+  } else {
+    btn.classList.add('loading');
+    btn.textContent = '読込中…';
+    loadBuffer(file).then(startPlayback).catch(() => {
+      if (myToken === token) {
+        resetBtn();
+        alert('音声の読み込みに失敗しました。電波の良いところでもう一度試してください。');
+      }
+    });
+  }
+}
+document.querySelectorAll('button.play').forEach(b => {
+  b.dataset.label = b.textContent;
+  b.addEventListener('click', () => playClip(b));
+});
+function jump() {
+  const id = location.hash.slice(1);
+  if (!id) return;
+  const el = document.getElementById(id);
+  if (el) {
+    document.querySelectorAll('.card.hit').forEach(c => c.classList.remove('hit'));
+    el.classList.add('hit');
+    el.scrollIntoView({behavior:'smooth', block:'center'});
+  }
+}
+window.addEventListener('hashchange', jump);
+window.addEventListener('load', jump);
+</script>
+</body>
+</html>
